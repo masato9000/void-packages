@@ -1,0 +1,28 @@
+# Template file for <ssvnc>
+
+pkgname="ssvnc"
+version="1.0.29"
+revision=1
+short_desc="Tunnel VNC through SSL, SSH or both; enhanced TightVNC viewer."
+maintainer="Local <root@localhost>"
+license="GPL-2"
+homepage="http://www.karlrunge.com/x11vnc/ssvnc.html"
+hostmakedepends="openjdk libjpeg-turbo-devel libXaw-devel libXpm-devel zlib-devel imake libressl-devel"
+makedepends="${hostmakedepends}"
+depends="stunnel xterm openssh perl tk libressl zlib libjpeg-turbo"
+distfiles="${SOURCEFORGE_SITE}/${pkgname}/${pkgname}-${version}.src.tar.gz"
+checksum=74df32eb8eaa68b07c9693a232ebe42154617c7f3cbe1d4e68d3fe7c557d618d
+
+do_configure() {
+	make config
+}
+
+do_build() {
+	export CFLAGS="$CFLAGS -fPIE -pie"
+	make EXTRA_LDOPTIONS=-lturbojpeg CCOPTIONS=-DTURBOVNC all
+}
+
+do_install() {
+	make ROOT=${DESTDIR} PREFIX=/usr MANDIR=/usr/share/man/ install
+}
+

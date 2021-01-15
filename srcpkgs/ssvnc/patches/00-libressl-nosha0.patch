@@ -1,0 +1,20 @@
+--- vncstorepw/ultravnc_dsm_helper.c.bak	2016-07-16 17:15:55.203801712 -0700
++++ vncstorepw/ultravnc_dsm_helper.c	2016-07-16 17:29:35.475473616 -0700
+@@ -131,7 +131,7 @@
+     "       and the MD5 hash (i.e. insert the keydata directly into the cipher.)\n"
+     "\n"
+     "       Use cipher@md+n,m to change the message digest. E.g. arc4@sha+8,16\n"
+-    "       Supported: 'md5', 'sha', 'sha1', 'ripemd160'.\n"
++    "       Supported: 'md5', 'sha1', 'ripemd160'.\n"
+     "\n"
+     "\n"
+     "       TCP Relay mode: to connect without any encryption use a cipher type of\n"
+@@ -413,8 +413,6 @@
+ 		p++;
+ 		if (strstr(p, "md5+") == p) {
+ 			Digest = EVP_md5();        p += strlen("md5+");
+-		} else if (strstr(p, "sha+") == p) {
+-			Digest = EVP_sha();        p += strlen("sha+");
+ 		} else if (strstr(p, "sha1+") == p) {
+ 			Digest = EVP_sha1();       p += strlen("sha1+");
+ 		} else if (strstr(p, "ripe+") == p) {

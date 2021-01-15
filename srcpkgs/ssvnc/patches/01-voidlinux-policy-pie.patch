@@ -1,0 +1,56 @@
+--- vncstorepw/Makefile.bak	2016-07-16 18:44:11.971024058 -0700
++++ vncstorepw/Makefile	2016-07-16 19:10:32.198855186 -0700
+@@ -13,23 +13,23 @@
+ all: $(CMD) $(UNWRAP) $(LIMACC) $(ULTDSM)
+ 
+ $(CMD): vncauth.o vncstorepw.o d3des.o
+-	PATH=$$PATH:$(EPATH) $(CC) -o $(CMD) vncstorepw.o vncauth.o d3des.o
++	PATH=$$PATH:$(EPATH) $(CC) $(CFLAGS) -o $(CMD) vncstorepw.o vncauth.o d3des.o
+ 	PATH=$$PATH:$(EPATH) strip $(CMD)
+ 	@ls -l $(CMD)
+ 
+ $(UNWRAP): unwrap.c
+ 	if [ `uname` = "Darwin" ]; then \
+-		PATH=$$PATH:$(EPATH) $(CC) -o $(UNWRAP) -dynamiclib -fPIC unwrap.c; \
++		PATH=$$PATH:$(EPATH) $(CC) $(CFLAGS) -o $(UNWRAP) -dynamiclib -fPIC unwrap.c; \
+ 	else \
+-		PATH=$$PATH:$(EPATH) $(CC) -o $(UNWRAP) -shared     -fPIC unwrap.c; \
++		PATH=$$PATH:$(EPATH) $(CC) $(CFLAGS) -o $(UNWRAP) -shared     -fPIC unwrap.c; \
+ 	fi
+ 	@ls -l $(UNWRAP)
+ 
+ $(LIMACC): lim_accept.c
+ 	if [ `uname` = "Darwin" ]; then \
+-		PATH=$$PATH:$(EPATH) $(CC) -o $(LIMACC) -dynamiclib -fPIC -nostartfiles lim_accept.c; \
++		PATH=$$PATH:$(EPATH) $(CC) $(CFLAGS) -o $(LIMACC) -dynamiclib -fPIC -nostartfiles lim_accept.c; \
+ 	else \
+-		PATH=$$PATH:$(EPATH) $(CC) -o $(LIMACC) -shared     -fPIC -nostartfiles lim_accept.c; \
++		PATH=$$PATH:$(EPATH) $(CC) $(CFLAGS) -o $(LIMACC) -shared     -fPIC -nostartfiles lim_accept.c; \
+ 	fi
+ 	@ls -l $(LIMACC)
+ 
+@@ -37,9 +37,9 @@
+ 
+ $(ULTDSM): ultravnc_dsm_helper.c 
+ 	if [ `uname` = "SunOS" ]; then \
+-		PATH=$$PATH:$(EPATH) $(CC) -o $(ULTDSM) $(CPP_SSL) ultravnc_dsm_helper.c $(LD_SSL) -lssl -lcrypto -lsocket -lnsl; \
++		PATH=$$PATH:$(EPATH) $(CC) $(CFLAGS) -o $(ULTDSM) $(CPP_SSL) ultravnc_dsm_helper.c $(LD_SSL) -lssl -lcrypto -lsocket -lnsl; \
+ 	else \
+-		PATH=$$PATH:$(EPATH) $(CC) -o $(ULTDSM) $(CPP_SSL) ultravnc_dsm_helper.c $(LD_SSL) -lssl -lcrypto; \
++		PATH=$$PATH:$(EPATH) $(CC) $(CFLAGS) -o $(ULTDSM) $(CPP_SSL) ultravnc_dsm_helper.c $(LD_SSL) -lssl -lcrypto; \
+ 	fi
+ 	PATH=$$PATH:$(EPATH) strip $(ULTDSM)
+ 	@ls -l $(ULTDSM)
+--- Makefile.bak	2016-07-16 19:08:48.224919046 -0700
++++ Makefile	2016-07-16 21:47:29.047460311 -0700
+@@ -53,8 +53,8 @@
+ 	@echo Now run: "'make all'"
+ 
+ all:
+-	cd $(VSRC)/libvncauth; $(MAKE)
+-	cd $(VSRC)/vncviewer;  $(MAKE)
++	cd $(VSRC)/libvncauth; $(MAKE) CDEBUGFLAGS="$(CFLAGS)"
++	cd $(VSRC)/vncviewer;  $(MAKE) CDEBUGFLAGS="${CFLAGS}"
+ 	if [ "X$(JSRC)" != "X" ]; then cd $(JSRC); $(MAKE); fi
+ 	cd $(PSRC); $(MAKE)
+ 

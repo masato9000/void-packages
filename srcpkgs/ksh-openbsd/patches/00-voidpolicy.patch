@@ -1,0 +1,19 @@
+--- Makefile	2020-10-05 01:12:18.000000000 -0700
++++ Makefile	2021-01-14 20:13:20.327431090 -0800
+@@ -4,7 +4,7 @@
+ PREFIX =	/usr
+ endif
+ BINDIR = 	$(DESTDIR)/$(PREFIX)/bin
+-MANDIR =	$(DESTDIR)/$(PREFIX)/man
++MANDIR =	$(DESTDIR)/$(PREFIX)/share/man
+ TMP ?= /tmp
+ 
+ PROG =	ksh
+@@ -23,6 +23,7 @@
+ CDIAGFLAGS+=	-Wdeclaration-after-statement
+ 
+ CFLAGS +=	$(CDIAGFLAGS) `getconf LFS_CFLAGS` -DEMACS -DVI
++CFLAGS +=	-fPIE -pie
+ LDADD +=	-lbsd -lcurses
+ 
+ $(PROG): $(OBJS)
