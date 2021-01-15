@@ -1,0 +1,30 @@
+# Template file for 'funguloids'
+# BROKEN - builds but runtime fails with compositor problems
+pkgname=funguloids
+version=1.06.4.12
+revision=1
+gitver=f96ecc6a3197da355cbb5d3b822a23756b803d88
+#only_for_archs="i686 x86_64"
+build_style=gnu-configure
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="autoconf automake pkg-config"
+makedepends="lua51-devel libogre-devel ois-devel freealut-devel libvorbis-devel
+ boost-devel"
+depends="libpng"
+short_desc="Up-to-date fork of the original 'Those Funny Funguloids' game"
+maintainer="masato9000 <masato9000@users.noreply.github.com>"
+license="zlib/libpng"
+homepage="https://github.com/fishilico/funguloids"
+distfiles="${homepage}//archive/${gitver}.tar.gz"
+checksum=aa77ae447fb986645e6091666e8f5314002879fad787556fdb42f3ec65823003
+wrksrc="${pkgname}-${gitver}"
+
+pre_configure() {
+	rm -f build-aux/*
+	aclocal && autoheader && autoconf
+	automake --add-missing
+}

@@ -1,0 +1,14 @@
+# Template file for 'black-box'
+pkgname=black-box
+version=1.4.8
+revision=1
+build_style=gnu-configure
+hostmakedepends="${makedepends}"
+makedepends="SDL_image-devel SDL_mixer-devel"
+short_desc="Shoot lasers into a black box to determine where crystals are hidden"
+maintainer="local <root@localhost>"
+license="GPL-2"
+homepage="http://www.linux-games.com/black-box/"
+distfiles="http://www.linux-games.com/$pkgname/$pkgname-$version.tar.gz"
+checksum=9cf6a31a96e487c86973a4fe4603ed16709b6196de872d34f8df785c809b73bd
+
