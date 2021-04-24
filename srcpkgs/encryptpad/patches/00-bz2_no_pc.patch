@@ -1,0 +1,13 @@
+--- configure.py	2020-05-16 06:24:31.000000000 -0700
++++ configure.py	2021-04-23 22:05:41.808184025 -0700
+@@ -1753,8 +1753,8 @@
+         template_vars['bzip2_cxxflags'] =  cc.add_include_dir_option + bzip2_dir
+         template_vars['bzip2_ldflags'] = os.path.join(bzip2_dir, 'libbz2.a')
+     else:
+-        template_vars['bzip2_cxxflags'] = external_command(['pkg-config', '--cflags', 'bzip2'])
+-        template_vars['bzip2_ldflags'] = external_command(['pkg-config', '--libs', 'bzip2'])
++        template_vars['bzip2_cxxflags'] = ''
++        template_vars['bzip2_ldflags'] = '-lbz2'
+ 
+ def set_zlib_variables(options, template_vars, cc):
+     template_vars['build_zlib'] = options.build_zlib

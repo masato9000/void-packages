@@ -7,3 +7,4 @@ package templates for software of personal interest
 - `ssvnc` - Tunneling (SSH/SSL) VNC viewer from Karl Runge (author of X11VNC)
 - `ksh-openbsd` - Truly free (noGPL3) port of OpenBSD's PDKSH from Lévai Dániel
 - `xfce4-mount-plugin` - currently maintained but missing from Void...
+- `encryptpad` - Edit encrypted text (without writing unencrypted data to disk!)
