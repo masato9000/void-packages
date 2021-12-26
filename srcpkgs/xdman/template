@@ -1,0 +1,37 @@
+# Template file for 'xdman'
+pkgname=xdman
+version=7.2.11
+revision=1
+archs="x86_64"
+wrksrc=xdm-${version}
+#build_style=
+hostmakedepends="apache-maven-bin openjdk11"
+depends="openjdk11"
+short_desc="XTREME DOWNLOAD MANAGER"
+maintainer="masato9000 <masato9000@users.noreply.github.com>"
+license="GPL-2.0"
+homepage="https://xtremedownloadmanager.com/"
+githome="https://github.com/subhra74/xdm"
+distfiles="${githome}/archive/refs/tags/${version}.tar.gz"
+checksum=a2c318394241d6a6b65d0e50b53eaed5eb9aaf67ef70e5885e3b1305b242ad81
+
+do_build() {
+	cd $wrksrc/app
+	mvn clean install
+}
+
+do_install() {
+	vlicense LICENSE
+	vdoc README.md
+	vmkdir usr/share/doc/$pkgname/html
+	vcopy docs/* usr/share/doc/$pkgname/html
+	vmkdir opt/xdman
+	vinstall app/target/xdman.jar 644 opt/xdman
+	vmkdir usr/share/icons/hicolor/128x128/apps
+	vinstall app/src/main/resources/icons/hdpi/icon_linux.png 644 \
+		 usr/share/icons/hicolor/128x128/apps xdman.png
+	vmkdir usr/share/applications
+	vinstall ${FILESDIR}/xdman.desktop 644 usr/share/applications
+	vbin ${FILESDIR}/xdman.void xdman
+}
+
