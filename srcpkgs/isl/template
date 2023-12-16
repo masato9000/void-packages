@@ -1,15 +1,16 @@
 # Template file for 'isl'
 pkgname=isl
-version=0.24
-revision=2
+version=0.26
+revision=1
 build_style=gnu-configure
 makedepends="gmp-devel"
 short_desc="Integer Set Library"
-maintainer="Orphaned <orphan@voidlinux.org>"
+maintainer="dkwo <npiazza@disroot.org>"
 license="MIT"
 homepage="https://libisl.sourceforge.io/"
+changelog="https://repo.or.cz/isl.git/blob_plain/HEAD:/ChangeLog"
 distfiles="${SOURCEFORGE_SITE}/libisl/isl-${version}.tar.bz2"
-checksum=fcf78dd9656c10eb8cf9fbd5f59a0b6b01386205fe1934b3b287a0a1898145c0
+checksum=5eac8664e9d67be6bd0bee5085d6840b8baf738c06814df47eaf4166d9776436
 
 post_install() {
 	vlicense LICENSE

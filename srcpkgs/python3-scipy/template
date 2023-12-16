@@ -1,22 +1,24 @@
 # Template file for 'python3-scipy'
 pkgname=python3-scipy
-version=1.8.1
+version=1.11.4
 revision=1
-wrksrc="scipy-${version}"
-build_style=python3-module
-build_helper="numpy"
-make_check_args="--force"
-hostmakedepends="gcc-fortran python3-setuptools python3-Cython python3-pybind11"
-makedepends="python3-devel python3-pybind11
- $(vopt_if openblas openblas-devel lapack-devel)"
+build_style=python3-pep517
+build_helper="meson numpy"
+make_build_args="
+ $(vopt_if openblas "" "-Csetup-args=-Dblas=blas -Csetup-args=-Dlapack=lapack")
+"
+hostmakedepends="python3-meson-python python3-Cython python3-pybind11
+ pythran python3-numpy gcc-fortran pkg-config"
+makedepends="python3-devel python3-pybind11 python3-numpy pythran
+ $(vopt_if openblas openblas-devel "lapack-devel cblas-devel")"
 depends="python3-numpy"
-checkdepends="python3-pytest"
 short_desc="Scientific library for Python3"
 maintainer="Andrew J. Hesford <ajh@sideband.org>"
 license="BSD-3-Clause"
-homepage="https://scipy.org/scipylib/"
-distfiles="https://github.com/scipy/scipy/releases/download/v${version}/scipy-${version}.tar.xz"
-checksum=0140dd24d14ce194fdb3df496c2190f0896ca84ac98bf5d69c3b3fb7bde1a1e9
+homepage="https://scipy.org/"
+distfiles="${PYPI_SITE}/s/scipy/scipy-${version}.tar.gz"
+checksum=90a2b78e7f5733b9de748f589f09225013685f9b218275257f8a8168ededaeaa
+make_check="no" # Tests need an installed copy to run and meson makes this tough
 
 build_options="openblas"
 
@@ -35,33 +37,6 @@ if [ "$build_option_openblas" ]; then
 	esac
 fi
 
-LDFLAGS+=" -shared"
-
-# Tell numpy to build in parallel
-export NPY_NUM_BUILD_JOBS="${XBPS_MAKEJOBS}"
-
-# Pythran isn't packaged, disable for now
-export SCIPY_USE_PYTHRAN=0
-
-pre_build() {
-	# Find the right linear algebra subroutines on the target arch
-	: > site.cfg
-	for _blaslib in $(vopt_if openblas openblas "lapack blas"); do
-		cat >> site.cfg <<-EOF
-		[$_blaslib]
-		libraries = ${_blaslib}
-		include_dirs = ${XBPS_CROSS_BASE}/usr/include
-		library_dirs = ${XBPS_CROSS_BASE}/usr/lib
-		runtime_library_dirs = ${XBPS_CROSS_BASE}/usr/lib
-		EOF
-	done
-}
-
-do_check() {
-	python3 ./runtests.py --verbose
-}
-
 post_install() {
-	rm ${DESTDIR}/${py3_sitelib}/scipy/*.txt
 	vlicense LICENSE.txt
 }

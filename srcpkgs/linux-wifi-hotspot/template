@@ -1,0 +1,19 @@
+# Template file for 'linux-wifi-hotspot'
+pkgname=linux-wifi-hotspot
+version=4.6.0
+revision=1
+build_style=gnu-makefile
+hostmakedepends="pkg-config which glib-devel"
+makedepends="gtk+3-devel libpng-devel qrencode-devel"
+depends="bash dnsmasq hostapd iproute2 iptables iw procps-ng util-linux"
+short_desc="Feature-rich wifi hotspot creator"
+maintainer="Bnyro <bnyro@tutanota.com>"
+license="BSD-2-Clause"
+homepage="https://github.com/lakinduakash/linux-wifi-hotspot"
+distfiles="https://github.com/lakinduakash/linux-wifi-hotspot/archive/refs/tags/v${version}.tar.gz"
+checksum=bc0ad1d38e3e1b00bb7e0416a2b7a1a79dc908036342c85b0a8c3962ffd5bded
+conflicts="create_ap"
+
+post_install() {
+	vlicense LICENSE
+}

@@ -1,61 +1,53 @@
 # Template file for 'grpc'
 pkgname=grpc
-version=1.39.1
-revision=5
-_abseilver=997aaf3a28308eba1b9156aa35ab7bca9688e9f6
+version=1.56.0
+revision=3
 build_style=cmake
 configure_args="-DBUILD_SHARED_LIBS=ON
  -DgRPC_CARES_PROVIDER=package -DgRPC_PROTOBUF_PROVIDER=package
  -DgRPC_SSL_PROVIDER=package -DgRPC_ZLIB_PROVIDER=package
- -D_gRPC_RE2_LIBRARIES=${XBPS_CROSS_BASE}/usr/lib/libre2.so
- -D_gRPC_RE2_INCLUDE_DIR=${XBPS_CROSS_BASE}/usr/include"
-hostmakedepends="which protobuf"
-_devel_depends="c-ares-devel re2-devel zlib-devel openssl-devel"
-makedepends="libprotoc-devel protobuf-devel gperftools-devel ${_devel_depends}"
+ -DgRPC_ABSL_PROVIDER=package -DgRPC_RE2_PROVIDER=package"
+hostmakedepends="protobuf pkg-config"
+_devel_depends="c-ares-devel re2-devel zlib-devel openssl-devel abseil-cpp-devel
+ protobuf-devel"
+makedepends="libprotoc-devel gperftools-devel ${_devel_depends}"
 short_desc="High performance, open source, general RPC framework"
 maintainer="Orphaned <orphan@voidlinux.org>"
 license="Apache-2.0"
 homepage="https://github.com/grpc/grpc"
-distfiles="${homepage}/archive/v${version}/${pkgname}-${version}.tar.gz
- https://github.com/abseil/abseil-cpp/archive/${_abseilver}/abseil-cpp-${_abseilver}.tar.gz"
-checksum="024118069912358e60722a2b7e507e9c3b51eeaeee06e2dd9d95d9c16f6639ec
- 35f22ef5cb286f09954b7cc4c85b5a3f6221c9d4df6b8c4a1e9d399555b366ee"
+_opencensus=0.3.0
+_xds=e9ce68804cb4e64cab5a52e3c8baf840d4ff87b7
+distfiles="https://github.com/grpc/grpc/archive/v${version}/${pkgname}-${version}.tar.gz
+ https://storage.googleapis.com/grpc-bazel-mirror/github.com/census-instrumentation/opencensus-proto/archive/v${_opencensus}.tar.gz>opencensus-proto-v${_opencensus}.tar.gz
+ https://storage.googleapis.com/grpc-bazel-mirror/github.com/cncf/xds/archive/${_xds}.tar.gz>xds-${_xds}.tar.gz
+ "
+checksum="e034992a0b464042021f6d440f2090acc2422c103a322b0844e3921ccea981dc
+ b7e13f0b4259e80c3070b583c2f39e53153085a6918718b1c710caf7037572b0
+ 0d33b83f8c6368954e72e7785539f0d272a8aba2f6e2e336ed15fd1514bc9899
+ "
+
+skip_extraction="
+ opencensus-proto-v${_opencensus}.tar.gz
+ xds-${_xds}.tar.gz"
 
 if [ "$CROSS_BUILD" ]; then
 	# need host grpc_cpp_plugin
 	hostmakedepends+=" grpc"
-fi
-
-if [ "$XBPS_TARGET_NO_ATOMIC8" ]; then
-	makedepends+=" libatomic-devel"
-	configure_args+=" -DCMAKE_CXX_STANDARD_LIBRARIES=-latomic"
+	configure_args+=" -DProtobuf_PROTOC_EXECUTABLE=/usr/bin/protoc"
 fi
 
 post_extract() {
-	rm -rf third_party/abseil-cpp
-	mv ../abseil-cpp-${_abseilver} third_party/abseil-cpp
+	vsrcextract -C third_party/opencensus-proto \
+		"opencensus-proto-v${_opencensus}.tar.gz"
+	vsrcextract -C third_party/xds "xds-${_xds}.tar.gz"
 }
 
-post_patch() {
-	# re2 doesn't install CMake config modules;
-	# key variables are set in configure_args
-	vsed -i CMakeLists.txt -e '/include(cmake\/re2\.cmake)/d'
-}
-
-post_build() {
-	# Clean up unneeded absl linker arguments from pkgconfig files
-	sed -e 's/-labsl_[^[:space:]]\+[[:space:]]*//g' \
-		-i build/lib/pkgconfig/*.pc
-}
-
-post_install() {
-	# Remove unnecessary absl static libs and cmake modules
-	rm "${DESTDIR}"/usr/lib/libabsl*.a
-	rm -rf "${DESTDIR}/usr/lib/cmake/absl"
-	
-	# Add custom absl include root to grpcpp cflags
-	vsed -e 's,^Cflags:.*,& -I${includedir}/grpc_absl,' \
-		-i ${DESTDIR}/usr/lib/pkgconfig/grpc++*.pc
+libgrpc_package() {
+	short_desc+=" - libraries"
+	pkg_install() {
+		vmove "usr/lib/*.so.*"
+		vmove usr/share
+	}
 }
 
 grpc-devel_package() {

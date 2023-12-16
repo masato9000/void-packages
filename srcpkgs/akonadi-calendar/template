@@ -1,17 +1,28 @@
 # Template file for 'akonadi-calendar'
 pkgname=akonadi-calendar
-version=22.04.1
+version=23.08.3
 revision=1
 build_style=cmake
 hostmakedepends="extra-cmake-modules python3 qt5-qmake qt5-host-tools
  gettext kcoreaddons kconfig"
-makedepends="akonadi-contacts-devel kmailtransport-devel kcalutils-devel"
+makedepends="akonadi-contacts-devel kmailtransport-devel kcalutils-devel
+ messagelib-devel"
 short_desc="Akonadi calendar integration"
 maintainer="John <me@johnnynator.dev>"
 license="LGPL-2.1-or-later"
 homepage="https://community.kde.org/KDE_PIM"
 distfiles="${KDE_SITE}/release-service/${version}/src/akonadi-calendar-${version}.tar.xz"
-checksum=359c86f9fe84ea0b66629f143244dda0c14b534e34feacf88971f5170ba111cb
+checksum=2bdac61012cd361e52ec7bcc03c554752b64bbe61dd161e4c74241092a2030e5
+
+do_check() {
+	cd build
+	ctest -E 'kcalcoreserializertest'
+}
+
+do_check() {
+	cd build
+	ctest -E 'kcalcoreserializertest'
+}
 
 akonadi-calendar-devel_package() {
 	depends="${sourcepkg}>=${version}_${revision} ${makedepends}"

@@ -1,12 +1,12 @@
 # Template file for 'wireplumber'
 pkgname=wireplumber
-version=0.4.10
+version=0.4.16
 revision=1
 build_style=meson
 build_helper=gir
 configure_args="-Dintrospection=enabled -Dsystem-lua=true"
-hostmakedepends="pkg-config glib-devel python3-lxml doxygen"
-makedepends="libglib-devel pipewire-devel lua54-devel"
+hostmakedepends="pkg-config glib-devel python3-lxml doxygen gettext"
+makedepends="libglib-devel pipewire-devel lua54-devel elogind-devel"
 checkdepends="pipewire dbus"
 short_desc="Session and policy manager implementation for PipeWire"
 maintainer="Érico Nogueira <ericonr@disroot.org>"
@@ -14,20 +14,30 @@ license="MIT"
 homepage="https://pipewire.pages.freedesktop.org/wireplumber"
 changelog="https://gitlab.freedesktop.org/pipewire/wireplumber/-/raw/master/NEWS.rst"
 distfiles="https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/$version/wireplumber-$version.tar.gz"
-checksum=bddc5bb3c47e97c170d27c712bc3c7912592aea1ea9df747e92685f5194456d4
+checksum=39fee0f1e8d87b8705ca6dfd168be8bb59f3f04358896c66dc862b1a9ea2e9fd
+provides="pipewire-session-manager-0_1"
 
 post_install() {
 	vlicense LICENSE
-	vsv wireplumber
+	vinstall "${FILESDIR}/wireplumber.desktop" 644 usr/share/applications
+	vsconf "${FILESDIR}/10-wireplumber.conf"
 }
 
 wireplumber-devel_package() {
-	depends="${sourcepkg}>=${version}_${revision}"
+	depends="${sourcepkg}>=${version}_${revision} libglib-devel"
 	short_desc+=" - development files"
 	pkg_install() {
 		vmove usr/include
 		vmove usr/lib/pkgconfig
 		vmove "usr/lib/*.so"
 		vmove usr/share/gir-1.0
+	}
+}
+
+wireplumber-elogind_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - elogind integration"
+	pkg_install() {
+		vmove "usr/lib/wireplumber-${version%.*}/libwireplumber-module-logind.so"
 	}
 }

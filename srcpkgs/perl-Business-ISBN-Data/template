@@ -2,13 +2,12 @@
 pkgname=perl-Business-ISBN-Data
 version=20210112.006
 revision=1
-wrksrc="${pkgname/perl-/}-${version}"
 build_style=perl-module
 hostmakedepends="perl"
 makedepends="${hostmakedepends}"
 depends="${makedepends}"
 short_desc="Business::ISBN::Data - data pack for Business::ISBN"
-maintainer="svenper <svenper@tuta.io>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="Artistic-1.0-Perl, GPL-1.0-or-later"
 homepage="https://metacpan.org/release/Business-ISBN-Data/"
 distfiles="${CPAN_SITE}/Business/${pkgname/perl-/}-${version}.tar.gz"

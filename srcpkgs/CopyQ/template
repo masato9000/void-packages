@@ -1,7 +1,7 @@
 # Template file for 'CopyQ'
 pkgname=CopyQ
-version=6.1.0
-revision=1
+version=7.1.0
+revision=2
 build_style=cmake
 hostmakedepends="qt5-tools-devel extra-cmake-modules pkg-config
  qt5-wayland-devel wayland-devel"
@@ -14,4 +14,4 @@ license="GPL-3.0-or-later"
 homepage="https://hluk.github.io/CopyQ/"
 changelog="https://raw.githubusercontent.com/hluk/CopyQ/master/CHANGES.md"
 distfiles="https://github.com/hluk/CopyQ/archive/v${version}.tar.gz"
-checksum=d235b31224264e7fa463020f1a934143aa287a4d9cb9bbb6883563ad66e84099
+checksum=ce0265b0a86350fda7bfa1a9d4b74d794a4077551b28186012683567d6fd8158

@@ -1,8 +1,7 @@
 # Template file for 'crawl-tiles'
 pkgname=crawl-tiles
-version=0.28.0
+version=0.30.1
 revision=1
-wrksrc="crawl-${version}"
 build_wrksrc="crawl-ref/source"
 make_build_args="prefix=/usr bin_prefix=bin DATADIR=/usr/share/crawl-tiles
  TILES=y SOUND=y GAME=crawl-tiles"
@@ -16,7 +15,7 @@ maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="GPL-2.0-or-later"
 homepage="http://crawl.develz.org/"
 distfiles="https://github.com/crawl/crawl/archive/${version}.tar.gz"
-checksum=287f35476d20bbe8aaa3e663140704462b4e304a4e1ed5c2b5da1d273dd1f383
+checksum=f7f793271eab06822b9cb3936da54a1cbe759b471347088a4d76052ac8947597
 nocross=yes
 
 post_extract() {

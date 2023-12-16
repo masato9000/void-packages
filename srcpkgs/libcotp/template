@@ -1,19 +1,19 @@
 # Template file for 'libcotp'
 pkgname=libcotp
-version=1.2.4
+version=2.0.2
 revision=1
 build_style=cmake
 hostmakedepends="pkg-config"
-makedepends="libbaseencode-devel libgcrypt-devel"
+makedepends="libgcrypt-devel"
 short_desc="Library for generating TOTP and HOTP"
-maintainer="Orphaned <orphan@voidlinux.org>"
+maintainer="Emil Miler <em@0x45.cz>"
 license="Apache-2.0"
 homepage="https://github.com/paolostivanin/libcotp"
-distfiles="https://github.com/paolostivanin/libcotp/archive/v${version}.tar.gz"
-checksum=6a077c6a8e785a542262f207fbb760f3d7d03649787c10cb01ea38c280dda070
+distfiles="https://github.com/paolostivanin/libcotp/archive/refs/tags/v${version}.tar.gz"
+checksum=c5357af4b3f6b3c5ad91e7f6cc6866a6139d0f89e780a057be34b31d4620caec
 
 libcotp-devel_package() {
-	depends="libcotp-${version}_${revision}"
+	depends="${sourcepkg}>=${version}_${revision}"
 	short_desc+=" - development files"
 	pkg_install() {
 		vmove usr/include

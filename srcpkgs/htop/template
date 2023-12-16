@@ -1,6 +1,6 @@
 # Template file for 'htop'
 pkgname=htop
-version=3.2.0
+version=3.2.2
 revision=1
 build_style=gnu-configure
 configure_args="--enable-unicode --enable-sensors"
@@ -11,4 +11,4 @@ license="GPL-2.0-only"
 homepage="https://htop.dev/"
 changelog="https://raw.githubusercontent.com/htop-dev/htop/main/ChangeLog"
 distfiles="https://github.com/htop-dev/htop/releases/download/${version}/htop-${version}.tar.xz"
-checksum=e0f645d4ac324f2c4c48aaa7a3a96d007b95516559550be0b56e423fc5b6d783
+checksum=bac9e9ab7198256b8802d2e3b327a54804dc2a19b77a5f103645b11c12473dc8

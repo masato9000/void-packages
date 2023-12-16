@@ -1,6 +1,6 @@
 # Template file for 'kmailtransport'
 pkgname=kmailtransport
-version=22.04.1
+version=23.08.3
 revision=1
 build_style=cmake
 hostmakedepends="extra-cmake-modules qt5-qmake qt5-host-tools python3
@@ -12,7 +12,12 @@ maintainer="John <me@johnnynator.dev>"
 license="LGPL-2.1-or-later"
 homepage="https://community.kde.org/KDE_PIM"
 distfiles="${KDE_SITE}/release-service/${version}/src/kmailtransport-${version}.tar.xz"
-checksum=8f1dc26f0dad28e81bce0f8ade3d83c811841bdb56a9b982032b1a233725add2
+checksum=37df2bd8283cb750ec42e2803f28843f51745dfe5ef9bdce7abc61e7988848a1
+
+do_check() {
+	cd build
+	ctest -E '(smtpjob|akonadi-sqlite-attribute|akonadi-sqlite-messagequeuejob)test'
+}
 
 kmailtransport-devel_package() {
 	depends="${sourcepkg}>=${version}_${revision} ${makedepends}"

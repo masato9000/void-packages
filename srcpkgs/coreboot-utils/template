@@ -1,9 +1,8 @@
 # Template file for 'coreboot-utils'
 pkgname=coreboot-utils
-version=4.13
+version=4.20.1
 revision=1
 archs="i686* x86_64*"
-wrksrc="coreboot-${version}"
 build_wrksrc="util"
 build_style=gnu-makefile
 makedepends="pciutils-devel zlib-devel"
@@ -12,12 +11,13 @@ maintainer="m3tav3rse <mtvrs@tuta.io>"
 license="GPL-2.0-only"
 homepage="https://coreboot.org"
 distfiles="https://coreboot.org/releases/coreboot-${version}.tar.xz"
-checksum=4779da645a25ddebc78f1bd2bd0b740fb1e6479572648d4650042a2b9502856a
+checksum=b41539a8c2eab2fec752157eb4acbd0e2a637a7203530c12e66b43a5c3c3a931
+CFLAGS="-D_GNU_SOURCE"
 
 do_build() {
 	for util in cbfstool cbmem ectool ifdtool inteltool intelmetool \
 		nvramtool superiotool; do
-		make ${makejobs} -C $util
+		make ${makejobs} -C $util WERROR=
 	done
 }
 

@@ -1,6 +1,6 @@
 # Template file for 'nettle'
 pkgname=nettle
-version=3.7.3
+version=3.9.1
 revision=1
 build_style=gnu-configure
 configure_args="--enable-shared"
@@ -10,8 +10,9 @@ short_desc="Low-level cryptographic library"
 maintainer="Érico Nogueira <ericonr@disroot.org>"
 license="GPL-2.0-or-later, GPL-3.0-or-later"
 homepage="https://www.lysator.liu.se/~nisse/nettle/"
-distfiles="${GNU_SITE}/${pkgname}/${pkgname}-${version}.tar.gz"
-checksum=661f5eb03f048a3b924c3a8ad2515d4068e40f67e774e8a26827658007e3bcf0
+changelog="https://git.lysator.liu.se/nettle/nettle/-/raw/master/NEWS"
+distfiles="${GNU_SITE}/nettle/nettle-${version}.tar.gz"
+checksum=ccfeff981b0ca71bbd6fbcb054f407c60ffb644389a5be80d6716d5b550c6ce3
 
 nettle-devel_package() {
 	depends="gmp-devel ${sourcepkg}>=${version}_${revision}"

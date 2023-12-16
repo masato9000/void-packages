@@ -1,17 +1,17 @@
 # Template file for 'sfeed'
 pkgname=sfeed
-version=1.4
+version=1.9
 revision=1
 build_style=gnu-makefile
 make_install_args="MANPREFIX=/usr/share/man"
 makedepends="ncurses-devel"
 depends="curl"
 short_desc="RSS and Atom parser"
-maintainer="notthewave <winklbauer_m@zoho.eu>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="ISC"
 homepage="https://git.codemadness.org/sfeed"
 distfiles="https://codemadness.org/releases/sfeed/sfeed-${version}.tar.gz"
-checksum=3c90f4bef1becdf583cc0ae201e694459edcd024e1d76bfeed3f417ecc163498
+checksum=7261dada0e4010ea09f67d1fd737404d691b9c7e5e7362334228c117d98a5646
 
 post_install() {
 	vlicense LICENSE

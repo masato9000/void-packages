@@ -1,27 +1,37 @@
 # Template file for 'go'
 pkgname=go
-version=1.18.1
+version=1.21.5
 revision=1
 create_wrksrc=yes
 build_wrksrc=go
-hostmakedepends="go1.12-bootstrap"
+hostmakedepends="go1.17-bootstrap"
+checkdepends="iana-etc clang gcc-fortran"
 short_desc="Go Programming Language"
 maintainer="Michael Aldridge <maldridge@voidlinux.org>"
 license="BSD-3-Clause"
 homepage="https://go.dev/"
 changelog="https://go.dev/doc/devel/release.html"
 distfiles="https://go.dev/dl/go${version}.src.tar.gz"
-checksum=efd43e0f1402e083b73a03d444b7b6576bb4c539ac46208b63a916b69aca4088
+checksum=285cbbdf4b6e6e62ed58f370f3f6d8c30825d6e56c5853c66d3c23bcdb09db19
 nostrip=yes
 noverifyrdeps=yes
+# on CI it tries to use `git submodule`, which is not part of chroot-git
+make_check=ci-skip
 
+# keep in sync with common/environment/build-style/go.sh
 case "${XBPS_TARGET_MACHINE}" in
-	aarch64*) _goarch=arm64 ;;
-	arm*) _goarch=arm ;;
-	i686*) _goarch=386 ;;
-	x86_64*) _goarch=amd64 ;;
-	ppc64le*) _goarch=ppc64le ;;
-	mips*) _goarch=mips ;;
+	aarch64*) export GOARCH=arm64 ;;
+	armv5*) export GOARCH=arm; export GOARM=5 ;;
+	armv6*) export GOARCH=arm; export GOARM=6 ;;
+	armv7*) export GOARCH=arm; export GOARM=7 ;;
+	i686*) export GOARCH=386 ;;
+	x86_64*) export GOARCH=amd64 ;;
+	ppc64le*) export GOARCH=ppc64le ;;
+	ppc64*) export GOARCH=ppc64 ;;
+	ppc*) export GOARCH=ppc ;;
+	mipsel*) export GOARCH=mipsle ;;
+	mips*) export GOARCH=mips ;;
+	riscv64*) export GOARCH=riscv64 ;;
 	*) broken="Unsupported architecture ${XBPS_TARGET_MACHINE}" ;;
 esac
 
@@ -31,48 +41,62 @@ if [ "$CROSS_BUILD" ]; then
 	fi
 fi
 
+# Workaround for go-1.19 compilation error on i686
+#   runtime/cgo(.text): unknown symbol __stack_chk_fail_local in pcrel
+if [ "$XBPS_MACHINE" = i686 ]; then
+	export CGO_CFLAGS="-fno-stack-protector"
+fi
+
+post_extract() {
+	if [ "$(df . --output=fstype | tail -1)" = zfs ]; then
+		# https://github.com/golang/go/issues/39905
+		rm -v go/src/cmd/link/internal/ld/fallocate_test.go
+	fi
+}
+
 do_build() {
 	unset GCC CC CXX LD CFLAGS
 	# FIXME: work around leaking go build-style vars when built as a
 	# dependency
-	unset CGO_CXXFLAGS CGO_CFLAGS CGO_ENABLED
+	unset CGO_CXXFLAGS CGO_ENABLED # CGO_CFLAGS
 
-	export GOROOT_BOOTSTRAP="/usr/lib/go1.12"
+	export GOROOT_BOOTSTRAP="/usr/lib/go1.17.13"
 	export GOROOT=$PWD
-	export GOROOT_FINAL="/usr/lib/go"
-	export GOARCH=${_goarch}
 
 	cd "src"
 
 	bash make.bash -v
 }
 
+do_check() {
+	if [ "$XBPS_LIBC" = musl ]; then
+		# https://github.com/golang/go/issues/39857
+		./bin/go tool dist test -v -run "!^cgo_test$"
+	else
+		./bin/go tool dist test -v
+	fi
+}
+
 do_install() {
 	local bindir
 
 	if [ "$CROSS_BUILD" ]; then
-		bindir=bin/linux_${_goarch}
+		bindir=bin/linux_${GOARCH}
 	else
 		bindir=bin
 	fi
 
 	vmkdir usr/bin
 	vmkdir usr/lib/go
+	vmkdir usr/lib/go/bin
 	vmkdir usr/share/go
-	cp -d --preserve=all ${bindir}/* ${DESTDIR}/usr/bin || true
+	cp -d --preserve=all ${bindir}/* ${DESTDIR}/usr/lib/go/bin
 	cp -a pkg src lib ${DESTDIR}/usr/lib/go
 	cp -r doc misc -t ${DESTDIR}/usr/share/go
 	ln -s /usr/share/go/doc ${DESTDIR}/usr/lib/go/doc
 	cp VERSION ${DESTDIR}/usr/lib/go/VERSION
-
-	# This is to make go get code.google.com/p/go-tour/gotour and
-	# then running the gotour executable work out of the box.
-	#
-	# Also, /usr/bin is the place for system-wide executables,
-	# not /usr/lib/go/bin. Users should use different paths by
-	# setting the appropriate environment variables.
-	#
-	ln -sf /usr/bin ${DESTDIR}/usr/lib/go/bin
+	# GOROOT_FINAL doesn't work anymore, see: https://github.com/golang/go/issues/61921
+	ln -sfr ${DESTDIR}/usr/lib/go/bin/* ${DESTDIR}/usr/bin
 
 	# <dominikh> sigh. well, someone fix the template and add
 	# a symlink, usr/lib/go/misc -> /usr/share/go/misc
@@ -82,6 +106,8 @@ do_install() {
 	rm -f ${DESTDIR}/usr/lib/go/pkg/tool/*/api
 	rm -rf ${DESTDIR}/usr/lib/go/pkg/bootstrap
 	rm -rf ${DESTDIR}/usr/lib/go/pkg/obj
+
+	vinstall go.env 644 usr/lib/go
 
 	vlicense LICENSE
 }

@@ -1,20 +1,20 @@
 # Template file for 'Signal-Desktop'
 pkgname=Signal-Desktop
-version=5.43.0
+version=6.41.0
 revision=1
-# Signal officially only supports x86_64 (also due to Electron)
-# discontinued Electron 32-bit support: https://www.electronjs.org/blog/linux-32bit-support
-# 32-bit is not supported https://github.com/signalapp/Signal-Desktop/issues/1661
-# armv7hf/arm64: https://github.com/signalapp/Signal-Desktop/issues/3410
+# Signal officially only supports x86_64 
+# x86_64-musl could potentially work based on the Alpine port:
+# https://git.alpinelinux.org/aports/tree/testing/signal-desktop
+# ARM: https://github.com/signalapp/Signal-Desktop/issues/3410
 archs="x86_64"
-hostmakedepends="git git-lfs nodejs python3 tar yarn"
+hostmakedepends="git git-lfs nodejs-lts python3 python3-distutils-extra tar"
 depends="cairo gtk+3 libvips pango"
 short_desc="Signal Private Messenger for Linux"
-maintainer="akierig <anelki@fastmail.de>"
+maintainer="anelki <akierig@fastmail.de>"
 license="AGPL-3.0-only"
 homepage="https://github.com/signalapp/Signal-Desktop"
 distfiles="https://github.com/signalapp/Signal-Desktop/archive/v${version}.tar.gz"
-checksum=9239dfc0356cec3c0aaea93e09d0ac44030037f24c1dcc3725e1e417c74af419
+checksum=38f82fd1fd95b9a9d63eb39ea01b5dbfc80d72d9a9749966f3716b705f4c2421
 nostrip_files="signal-desktop"
 
 post_extract() {
@@ -23,6 +23,7 @@ post_extract() {
 
 	vsed 's/"node": "/&>=/' -i package.json
 
+	npm install -g yarn
 	# Dependencies have to be installed before applying patch
 	yarn install --ignore-engines --frozen-lockfile
 }
@@ -50,7 +51,7 @@ do_install() {
 	vinstall ${FILESDIR}/signal.desktop 644 usr/share/applications/
 
 	vmkdir usr/share/icons/hicolor
-	for size in 16 32 48 128 256 1024; do
+	for size in 16 32 256; do
 		vinstall images/icon_${size}.png 644 usr/share/icons/hicolor/${size}x${size}/apps/ signal.png
 	done
 

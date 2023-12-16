@@ -1,26 +1,22 @@
 # Template file for 'bird'
 pkgname=bird
-version=2.0.9
-revision=2
-wrksrc=bird-v$version
+version=2.14
+revision=1
 build_style=gnu-configure
-hostmakedepends="flex autoconf"
+hostmakedepends="flex"
 makedepends="ncurses-devel readline-devel libssh-devel"
 short_desc="BIRD Internet Routing Daemon"
-maintainer="Philipp Hirsch <itself@hanspolo.net>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="GPL-2.0-or-later"
 homepage="https://bird.network.cz"
-distfiles="https://gitlab.labs.nic.cz/labs/bird/-/archive/v${version}/bird-v${version}.tar.gz"
-checksum=912d5c1bbefffd6198b10688ef6e16d0b9dfb2886944f481fc38b4d869ffd2c4
+changelog="https://gitlab.nic.cz/labs/bird/-/raw/master/NEWS"
+distfiles="https://bird.network.cz/download/bird-${version}.tar.gz"
+checksum=b0b9f6f8566541b9be4af1f0cac675c5a3785601a55667a7ec3d7de29735a786
 
 conf_files="/etc/bird.conf"
 system_accounts="_bird"
 
 CFLAGS="-fcommon"
-
-pre_configure() {
-	autoreconf
-}
 
 post_install() {
 	vsv bird

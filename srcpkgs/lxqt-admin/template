@@ -1,6 +1,6 @@
 # Template file for 'lxqt-admin'
 pkgname=lxqt-admin
-version=1.1.0
+version=1.4.0
 revision=1
 build_style=cmake
 hostmakedepends="lxqt-build-tools qt5-qmake qt5-host-tools polkit-qt5-devel
@@ -11,4 +11,4 @@ maintainer="Helmut Pozimski <helmut@pozimski.eu>"
 license="LGPL-2.1-or-later"
 homepage="https://lxqt-project.org"
 distfiles="https://github.com/lxqt/lxqt-admin/archive/${version}.tar.gz"
-checksum=cf6c41a63b861caacae5ace8bef4781f502cfb0f559fe56afbffe60d13a74775
+checksum=189e193b9a2dcca7a6ce19121c5463424961adf3cbf4cacc89b78262617508be

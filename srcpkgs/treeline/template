@@ -1,8 +1,7 @@
 # Template file for 'treeline'
 pkgname=treeline
-version=3.1.4
+version=3.1.6
 revision=2
-wrksrc="TreeLine-${version}"
 pycompile_dirs="usr/share/treeline"
 hostmakedepends="python3"
 depends="python3-PyQt5"
@@ -11,7 +10,7 @@ maintainer="newbluemoon <blaumolch@mailbox.org>"
 license="GPL-2.0-or-later"
 homepage="http://treeline.bellz.org/"
 distfiles="https://github.com/doug-101/TreeLine/archive/v${version}.tar.gz"
-checksum=bc6918f7bc892ab00cfc9293236c2d03021d64a5b6190594501048f2590572ab
+checksum=c4f187797365ef224bb285ef5d7e90a64b0ae33573d27599fb18d7af54b42d4d
 python_version=3
 
 do_install() {

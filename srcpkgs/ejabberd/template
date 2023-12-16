@@ -1,7 +1,7 @@
 # Template file for 'ejabberd'
 pkgname=ejabberd
-version=21.07
-revision=1
+version=22.05
+revision=4
 build_style=gnu-configure
 configure_args="--enable-odbc --enable-mysql --enable-pgsql --enable-pam
  --enable-redis --enable-elixir $(vopt_enable sqlite)"
@@ -15,7 +15,10 @@ maintainer="Toyam Cox <Vaelatern@voidlinux.org>"
 license="GPL-2.0-or-later"
 homepage="https://www.process-one.net/en/ejabberd/"
 distfiles="https://github.com/processone/ejabberd/archive/${version}.tar.gz"
-checksum=8b344f727602a28f88bf9e24d39144bc3f324b62e0b03bda51884f8d99084d4e
+checksum=b8e93b51ae3cb650a2870fae1b6705404bb155289e97be7e9a54961a9effb959
+# when building with parallel:
+# cp: cannot stat 'lib/mix/ebin': No such file or directory
+disable_parallel_build=yes
 
 build_options="sqlite"
 build_options_default="sqlite"
@@ -28,4 +31,8 @@ fi
 
 pre_configure() {
 	autoreconf -fi
+}
+
+post_install() {
+	rm -f ${DESTDIR}/usr/bin/{elixir,iex,mix}
 }

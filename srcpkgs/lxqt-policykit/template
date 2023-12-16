@@ -1,6 +1,6 @@
 # Template file for 'lxqt-policykit'
 pkgname=lxqt-policykit
-version=1.1.0
+version=1.4.0
 revision=1
 build_style=cmake
 hostmakedepends="pkg-config lxqt-build-tools polkit-qt5-devel perl"
@@ -10,5 +10,5 @@ maintainer="Helmut Pozimski <helmut@pozimski.eu>"
 license="LGPL-2.1-or-later"
 homepage="https://lxqt-project.org"
 distfiles="https://github.com/lxqt/lxqt-policykit/archive/${version}.tar.gz"
-checksum=4866bb843657206b0bb55cc063474941a6d81db578fe3d5143d3760f438b033d
+checksum=881de383f771ec2e6500e335a233ffef3ccbc5c1d41fe383ef0e677ffb5b8929
 replaces="lxqt-common>=0"

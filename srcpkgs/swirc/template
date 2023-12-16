@@ -1,28 +1,26 @@
 # Template file for 'swirc'
 pkgname=swirc
-version=3.3.4
+version=3.4.6
 revision=1
 build_style=configure
 configure_args="$(vopt_with notify libnotify)"
+make_build_args="PREFIX=/usr"
+make_check_args="PREFIX=/usr"
 make_install_args="PREFIX=/usr"
 hostmakedepends="gettext-devel-tools pkg-config which"
-makedepends="gettext-devel libcurl-devel libidn-devel ncurses-devel openssl-devel
- $(vopt_if notify libnotify-devel)"
+makedepends="gettext-devel hunspell-devel libcurl-devel libidn-devel
+ ncurses-devel openssl-devel $(vopt_if notify libnotify-devel)"
 checkdepends="cmocka-devel"
 short_desc="Curses ICB and IRC client"
 maintainer="Markus Uhlin <markus.uhlin@bredband.net>"
 license="BSD-3-Clause, ISC, MIT"
 homepage="https://www.nifty-networks.net/swirc"
 changelog="https://raw.githubusercontent.com/uhlin/swirc/master/CHANGELOG.md"
-distfiles="https://www.nifty-networks.net/swirc/releases/${pkgname}-${version}.tgz"
-checksum="2a8404965e796a67555b10b54aaf53d32bbd63e1707cd8364c572a5ed7e3f837"
+distfiles="https://www.nifty-networks.net/swirc/releases/swirc-${version}.tgz"
+checksum=b34b2fed727eb4ebd7f7fdd134e2466d70665e3fc397b1488bdb2c0f475da982
 
 build_options="notify"
-
-post_extract() {
-	vsed -i "${wrksrc}/src/events/privmsg.cpp" -e "s,/usr/local/share/swirc,/usr/share/swirc,"
-	vsed -i "${wrksrc}/src/main.cpp" -e "s,/usr/local/share/locale,/usr/share/locale,"
-}
+build_options_default="notify"
 
 post_configure() {
 	local _file="options.mk"
@@ -31,8 +29,8 @@ post_configure() {
 		msg_error "cannot find $_file\n"
 	fi
 
-	vsed -i "$_file" -e "s/CC=/CC?=/"
-	vsed -i "$_file" -e "s/CXX=/CXX?=/"
+	vsed -i "$_file" -e "s/CC =/CC ?=/"
+	vsed -i "$_file" -e "s/CXX =/CXX ?=/"
 }
 
 post_check() {
@@ -49,5 +47,5 @@ post_check() {
 }
 
 post_install() {
-	vlicense debian/copyright COPYING
+	vlicense License.rtf
 }

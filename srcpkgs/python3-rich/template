@@ -1,19 +1,17 @@
 # Template file for 'python3-rich'
 pkgname=python3-rich
-version=12.4.4
+version=13.7.0
 revision=1
-wrksrc="rich-${version}"
-build_style=python3-module
-hostmakedepends="python3-setuptools"
-depends="python3-typing_extensions python3-Pygments python3-commonmark
- python3-colorama"
+build_style=python3-pep517
+hostmakedepends="python3-poetry-core"
+depends="python3-Pygments python3-markdown-it"
 checkdepends="python3-wheel $depends"
 short_desc="Library for rich text and beautiful formatting in the terminal"
 maintainer="Andrew Benson <abenson+void@gmail.com>"
 license="MIT"
 homepage="https://github.com/willmcgugan/rich"
 distfiles="${PYPI_SITE}/r/rich/rich-${version}.tar.gz"
-checksum=4c586de507202505346f3e32d1363eb9ed6932f0c2f63184dea88983ff4971e2
+checksum=5cb5123b5cf9ee70584244246816e9114227e0b98ad9176eede6ad54bf5403fa
 make_check=extended # some checks only work on windows
 
 post_install() {

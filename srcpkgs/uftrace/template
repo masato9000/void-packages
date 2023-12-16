@@ -1,7 +1,7 @@
 # Template file for 'uftrace'
 pkgname=uftrace
-version=0.11
-revision=1
+version=0.14
+revision=2
 archs="x86_64* i686* aarch64* arm*"
 build_style=configure
 configure_args="--prefix=/usr --libdir=/usr/lib${XBPS_TARGET_WORDSIZE}"
@@ -12,7 +12,7 @@ maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="GPL-2.0-only"
 homepage="https://github.com/namhyung/uftrace"
 distfiles="https://github.com/namhyung/uftrace/archive/v${version}.tar.gz"
-checksum=101dbb13cb3320ee76525ec26426f2aa1de4e3ee5af74f79cb403ae4d2c6c871
+checksum=b81255bc288e79e96a5b158d4875fa6425ad51c85f4c4c8523c1defb9366ad12
 
 case "$XBPS_TARGET_MACHINE" in
 	*-musl) makedepends+=" argp-standalone"; export LDFLAGS=-largp;;

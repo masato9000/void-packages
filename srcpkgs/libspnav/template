@@ -1,19 +1,18 @@
 # Template file for 'libspnav'
 pkgname=libspnav
-version=0.2.3
+version=1.1
 revision=1
 build_style=gnu-configure
-configure_args="--disable-opt"
 makedepends="libX11-devel"
 short_desc="Open source alternative to 3DConnextion drivers"
 maintainer="yopito <pierre.bourgin@free.fr>"
-license="GPL-3"
+license="BSD-3-Clause"
 homepage="http://spacenav.sourceforge.net/"
-distfiles="${SOURCEFORGE_SITE}/spacenav/${pkgname}-${version}.tar.gz"
-checksum=7ae4d7bb7f6a5dda28b487891e01accc856311440f582299760dace6ee5f1f93
+distfiles="https://github.com/FreeSpacenav/libspnav/archive/refs/tags/v${version}.tar.gz"
+checksum=04b297f68a10db4fa40edf68d7f823ba7b9d0442f2b665181889abe2cea42759
 
-do_build() {
-	make CC="${CC}" AR="${AR}"
+post_install() {
+	vlicense LICENSE
 }
 
 libspnav-devel_package() {
@@ -23,5 +22,6 @@ libspnav-devel_package() {
 		vmove usr/include
 		vmove "usr/lib/*.a"
 		vmove "usr/lib/*.so"
+		vmove usr/share/pkgconfig
 	}
 }

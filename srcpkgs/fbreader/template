@@ -1,13 +1,13 @@
 # Template file for 'fbreader'
 pkgname=fbreader
 version=0.99.4
-revision=4
+revision=5
 build_style=gnu-makefile
 hostmakedepends="pkg-config qt5-host-tools"
 makedepends="fribidi-devel bzip2-devel expat-devel libcurl-devel
  libunibreak-devel sqlite-devel qt5-devel zlib-devel"
 short_desc="E-book reader"
-maintainer="Diogo Leal <diogo@diogoleal.com>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="GPL-2.0-or-later"
 homepage="http://www.fbreader.org/"
 distfiles="http://www.fbreader.org/files/desktop/${pkgname}-sources-${version}.tgz"

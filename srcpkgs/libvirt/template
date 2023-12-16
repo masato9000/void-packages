@@ -1,6 +1,6 @@
 # Template file for 'libvirt'
 pkgname=libvirt
-version=8.3.0
+version=9.9.0
 revision=1
 build_style=meson
 configure_args="-Dqemu_user=libvirt -Dqemu_group=libvirt -Drunstatedir=/run
@@ -15,12 +15,12 @@ makedepends="readline-devel libcap-ng-devel attr-devel gnutls-devel
  libssh2-devel fuse-devel libtirpc-devel libapparmor-devel"
 depends="iptables dnsmasq"
 short_desc="Virtualization API for controlling virtualization engines"
-maintainer="Helmut Pozimski <helmut@pozimski.eu>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="LGPL-2.1-or-later"
 homepage="https://libvirt.org"
 changelog="https://libvirt.org/news.html"
 distfiles="https://libvirt.org/sources/${pkgname}-${version}.tar.xz"
-checksum=be229b9ad1d48be7007e7bf341fc990c65e24aea624c16db6b36d02c820df5eb
+checksum=cb83be795548161af6718a6db75ee40719a87bcd6f9207a3565db2fc0e53a52e
 # At least one test times out on CI but works locally
 make_check=ci-skip
 
@@ -60,7 +60,7 @@ make_dirs="
  /var/lib/libvirt/images 0755 root root
  /var/lib/libvirt/filesystems 0755 root root
  /var/lib/libvirt/dnsmasq 0755 root root
- /var/libvirt/boot 0755 root root
+ /var/lib/libvirt/boot 0755 root root
  /var/cache/libvirt/qemu 0755 root root"
 
 post_patch() {

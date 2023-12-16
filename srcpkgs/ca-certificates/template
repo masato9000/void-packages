@@ -1,22 +1,21 @@
 # Template file for 'ca-certificates'
 pkgname=ca-certificates
-version=20211016+3.77
+version=20230311+3.95
 revision=1
 _nss_version=${version#*+}
 bootstrap=yes
 conf_files="/etc/ca-certificates.conf"
-create_wrksrc=yes
-build_wrksrc="work"
+build_wrksrc="ca-certificates"
 hostmakedepends="openssl"
-depends="openssl<=2.0_1 run-parts"
+depends="openssl run-parts"
 short_desc="Common CA certificates for SSL/TLS from Mozilla"
-maintainer="Orphaned <orphan@voidlinux.org>"
+maintainer="Đoàn Trần Công Danh <congdanhqx@gmail.com>"
 license="GPL-2.0-or-later, MPL-2.0"
 homepage="https://wiki.mozilla.org/NSS:Root_certs"
 distfiles="${DEBIAN_SITE}/main/c/${pkgname}/${pkgname}_${version%+*}.tar.xz
  ${MOZILLA_SITE}/security/nss/releases/NSS_${_nss_version//\./_}_RTM/src/nss-${_nss_version}.tar.gz"
-checksum="2ae9b6dc5f40c25d6d7fe55e07b54f12a8967d1955d3b7b2f42ee46266eeef88
- 825edf5a2fd35b788a23ff80face591f82919ae3ad2b8f77d424a450d618dedd"
+checksum="83de934afa186e279d1ed08ea0d73f5cf43a6fbfb5f00874b6db3711c64576f3
+ 469888e41e8a780051ce00edcd914e8a6bd38da88a82cfb84898dd388635822a"
 
 post_extract() {
 	cp ${FILESDIR}/* $build_wrksrc/mozilla

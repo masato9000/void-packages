@@ -1,15 +1,15 @@
 # Template file for 'intel-ucode'
 pkgname=intel-ucode
-version=20220510
+version=20231114
 revision=1
 archs="i686* x86_64*"
-wrksrc="Intel-Linux-Processor-Microcode-Data-Files-microcode-${version}"
 short_desc="Microcode update files for Intel CPUs"
-maintainer="Andrew J. Hesford <ajh@sideband.org>"
+maintainer="Mohammed Anas <triallax@tutanota.com>"
 license="custom: Proprietary"
 homepage="https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files"
-distfiles="${homepage}/archive/microcode-${version}.tar.gz"
-checksum=254ddc71b598fbb8dbb200ceb3af29aeb22f6bf50bc609e8f953cf9c8d286d2a
+changelog="https://raw.githubusercontent.com/intel/Intel-Linux-Processor-Microcode-Data-Files/main/releasenote.md"
+distfiles="https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files/archive/refs/tags/microcode-${version}.tar.gz"
+checksum=cee26f311f7e2c039dd48cd30f995183bde9b98fb4c3039800e2ddaf5c090e55
 repository=nonfree
 
 do_install() {

@@ -1,7 +1,7 @@
 # Template file for 'fractal'
 pkgname=fractal
-version=4.4.0
-revision=1
+version=4.4.2
+revision=2
 build_style=meson
 build_helper="rust"
 hostmakedepends="cargo pkg-config glib-devel gettext"
@@ -10,16 +10,11 @@ makedepends="gtk+3-devel libglib-devel openssl-devel gstreamer1-devel
  gst1-editing-services-devel gtksourceview4-devel pango-devel gspell-devel
  gmp-devel libsecret-devel libhandy-devel rust-std"
 short_desc="Matrix Messaging Client for GNOME"
-maintainer="Cameron Nemo <cnemo@tutanota.com>"
+maintainer="Cameron Nemo <cam@nohom.org>"
 license="GPL-3.0-or-later"
 homepage="https://wiki.gnome.org/Apps/Fractal"
-distfiles="https://gitlab.gnome.org/World/fractal/-/archive/$version/$pkgname-$version.tar.gz"
-checksum=3c3ea4e67e6d8fbc2e7b220fef188dcde5229e83c2cfeeadee42137718b34e56
-
-post_patch() {
-	# fixes an indexmap error when cross compiling
-	cargo update --package autocfg --precise 1.1.0
-}
+distfiles="https://gitlab.gnome.org/GNOME/fractal/-/archive/${version}/fractal-${version}.tar.gz"
+checksum=97bb2f355fb1a89851bf16c17aed63063c6c0a79d8adcd31ce0ab82bc4a56f5e
 
 post_patch() {
 	[ -z "$CROSS_BUILD" ] && return 0

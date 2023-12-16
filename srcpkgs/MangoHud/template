@@ -1,27 +1,23 @@
 # Template file for 'MangoHud'
 pkgname=MangoHud
-version=0.6.7.1
-_version="${version%.*}-${version##*.}"
-revision=2
-wrksrc="MangoHud-v${_version}"
+version=0.7.0
+revision=1
 build_style=meson
-configure_args="-Duse_system_vulkan=enabled -Dwith_xnvctrl=disabled
+configure_args="-Dwith_xnvctrl=disabled
  -Dwith_nvml=disabled -Duse_system_spdlog=enabled"
 hostmakedepends="Vulkan-Headers python3-Mako glslang pkg-config"
-makedepends="libglvnd-devel dbus-devel vulkan-loader Vulkan-Headers
- spdlog"
+makedepends="libglvnd-devel dbus-devel vulkan-loader spdlog json-c++"
 short_desc="Vulkan and OpenGL overlay for monitoring FPS, temperatures and more"
 maintainer="John <me@johnnynator.dev>"
 license="MIT"
 homepage="https://github.com/flightlessmango/MangoHud"
-distfiles="https://github.com/flightlessmango/MangoHud/releases/download/v${_version}/MangoHud-v${_version}-Source-DFSG.tar.xz"
-checksum=220abdc563e39727527b63ace9f7b8b1de0a53d4cf79b8bbed5794dbbf8db77a
+distfiles="https://github.com/flightlessmango/MangoHud/releases/download/v${version}/MangoHud-v${version}-Source-DFSG.tar.xz"
+checksum=222e15d4f3e679937f7594e2e5615aaae41b97d487eb7938b96b26eeb1fbcf35
+python_version=3
 
-post_patch() {
-	if [ "$XBPS_TARGET_LIBC" = "musl" ]; then
-		patch -Np0 -i ${FILESDIR}/musl.patch
-	fi
-}
+if [ "$XBPS_TARGET_LIBC" = "musl" ]; then
+	configure_args+=" -Ddynamic_string_tokens=false"
+fi
 
 post_install() {
 	vlicense LICENSE

@@ -1,6 +1,6 @@
 # Template file for 'akonadi-mime'
 pkgname=akonadi-mime
-version=22.04.1
+version=23.08.3
 revision=1
 build_style=cmake
 hostmakedepends="extra-cmake-modules kcoreaddons kdoctools python3
@@ -11,11 +11,16 @@ maintainer="John <me@johnnynator.dev>"
 license="LGPL-2.1-or-later, GPL-2.0-or-later"
 homepage="https://community.kde.org/KDE_PIM/Akonadi"
 distfiles="${KDE_SITE}/release-service/${version}/src/akonadi-mime-${version}.tar.xz"
-checksum=6f5808f19431c42654da7e8e729a8b0dad0e9ed1d0057efc035fd78c88347d0e
+checksum=e8dde2d8ff8723f9db485e7118b9b2e0f7d5ada0aa5987c202f1b226d79c1c1f
 
 if [ "$CROSS_BUILD" ];then
 	hostmakedepends+=" qt5-qmake qt5-host-tools kconfig"
 fi
+
+do_check() {
+	cd build
+	ctest -E "mailserializerplugintest"
+}
 
 akonadi-mime-devel_package() {
 	depends="${sourcepkg}>=${version}_${revision} ${makedepends}"

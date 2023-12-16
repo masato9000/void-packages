@@ -1,6 +1,6 @@
 # Template file for 'nncp'
 pkgname=nncp
-version=8.7.2
+version=8.10.0
 revision=1
 build_style=go
 go_import_path=cypherpunks.ru/nncp
@@ -9,13 +9,12 @@ maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="GPL-3.0-only"
 homepage="http://www.nncpgo.org/"
 distfiles="http://www.nncpgo.org/download/${pkgname}-${version}.tar.xz"
-checksum=a0eec9b0f33059de33f13084599805d0f4a1c8c379e925bacfe8dc94d1ddc23d
+checksum=154e13ba15c0ea93f54525793b0699e496b2db7281e1555f08d785a528f3f7fc
 
 do_build() {
-	make
+	./bin/build
 }
 
 do_install() {
-	make install DESTDIR="$DESTDIR" PREFIX=/usr \
-		INFODIR=$DESTDIR/usr/share/info
+	DESTDIR="$DESTDIR" PREFIX=/usr INFODIR=$DESTDIR/usr/share/info ./install
 }

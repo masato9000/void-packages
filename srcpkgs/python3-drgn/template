@@ -1,18 +1,17 @@
 # Template file for 'python3-drgn'
 pkgname=python3-drgn
-version=0.0.19
+version=0.0.24
 revision=1
-wrksrc="drgn-${version}"
 build_style=python3-module
 hostmakedepends="automake libtool pkg-config python3-setuptools"
 makedepends="elfutils-devel libgomp-devel python3-devel libkdumpfile-devel"
 depends="python3"
 short_desc="Scriptable debugger library"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
-license="GPL-3.0-or-later"
+license="LGPL-2.1-or-later"
 homepage="https://github.com/osandov/drgn/"
 distfiles="https://github.com/osandov/drgn/archive/refs/tags/v${version}.tar.gz"
-checksum=5ed9049f5a257c342eb8fb8e2c7276b1baf1e9109ff0d9677a0990990c7afa4d
+checksum=f3c82c95ba4694d9d4beff53d96730ec0d71f792319db639385c2f72ff1d9979
 
 pre_build() {
 	if [ "$CROSS_BUILD" ]; then

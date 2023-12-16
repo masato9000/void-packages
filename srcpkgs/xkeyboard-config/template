@@ -1,19 +1,19 @@
 # Template file for 'xkeyboard-config'
 pkgname=xkeyboard-config
-version=2.35.1
-revision=2
+version=2.40
+revision=1
 build_style=meson
 configure_args="-Dxorg-rules-symlinks=true -Dcompat-rules=true"
 hostmakedepends="pkg-config libxslt python3 intltool perl"
 makedepends="libX11-devel xkbcomp"
 depends="xkbcomp"
 short_desc="X Keyboard Configuration Database"
-maintainer="Orphaned <orphan@voidlinux.org>"
+maintainer="André Cerqueira <acerqueira021@gmail.com>"
 license="MIT"
 homepage="https://www.freedesktop.org/wiki/Software/XKeyboardConfig"
 changelog="https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/raw/master/NEWS"
-distfiles="${XORG_SITE}/data/${pkgname}/${pkgname}-${version}.tar.xz"
-checksum=18ce50ff0c74ae6093062bce1aeab3d363913ea35162fe271f8a0ce399de85cc
+distfiles="${XORG_SITE}/data/xkeyboard-config/xkeyboard-config-${version}.tar.xz"
+checksum=7a3dba1bec7dc7191432da021242d17c9cf6c89690e6c57b0de048ff8c9d2ae3
 
 post_install() {
 	vlicense COPYING

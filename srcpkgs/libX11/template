@@ -1,23 +1,19 @@
 # Template file for 'libX11'
 pkgname=libX11
-reverts="1.8_1"
-version=1.7.5
-revision=3
+version=1.8.7
+revision=1
 build_style=gnu-configure
 configure_args="--enable-ipv6 --enable-xlocaledir --without-xmlto
- --enable-static --enable-malloc0returnsnull"
+ --enable-static --enable-malloc0returnsnull
+ --disable-thread-safety-constructor"
 hostmakedepends="pkg-config xorg-util-macros xorgproto"
 makedepends="xorgproto xtrans libxcb-devel"
 short_desc="Base X libraries from Xorg"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="MIT"
-homepage="http://xorg.freedesktop.org/"
-distfiles="${XORG_SITE}/lib/${pkgname}-${version}.tar.xz"
-checksum=5a1847e2e2c248e1a203a24a1338a5586d6f48472eac58f6f08539110a965151
-
-do_configure() {
-	./configure ${configure_args}
-}
+homepage="https://gitlab.freedesktop.org/xorg/lib/libx11"
+distfiles="${XORG_SITE}/lib/libX11-${version}.tar.xz"
+checksum=05f267468e3c851ae2b5c830bcf74251a90f63f04dd7c709ca94dc155b7e99ee
 
 post_install() {
 	vlicense COPYING

@@ -1,18 +1,17 @@
 # Template file for 'gstreamer-vaapi'
 pkgname=gstreamer-vaapi
-version=1.20.1
+version=1.22.7
 revision=1
 build_style=meson
 hostmakedepends="pkg-config"
 makedepends="libXrandr-devel libva-devel MesaLib-devel gst-plugins-bad1-devel"
-checkdepends="$makedepends"
 short_desc="VA-API plugins for GStreamer 1.x"
 maintainer="Orphaned <orphan@voidlinux.org>"
 license="LGPL-2.1-or-later"
 homepage="https://gstreamer.freedesktop.org"
-changelog="https://raw.githubusercontent.com/GStreamer/gstreamer-vaapi/master/ChangeLog"
-distfiles="${homepage}/src/gstreamer-vaapi/gstreamer-vaapi-${version}.tar.xz"
-checksum=87fbf6c537af9079c99a9aefe951da119e16e5bcc9cc8614f5035f062bf21137
+changelog="https://gstreamer.freedesktop.org/releases/${version%.*}/#${version}"
+distfiles="https://gstreamer.freedesktop.org/src/gstreamer-vaapi/gstreamer-vaapi-${version}.tar.xz"
+checksum=0e9fff768b89de6d318b34146e4e781d82b9a0f4025dc541b2c8349c7bcb7f67
 
 pre_check() {
 	# Seems to need certain hardware to pass

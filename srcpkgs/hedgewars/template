@@ -1,8 +1,7 @@
 # Template file for 'hedgewars'
 pkgname=hedgewars
-version=1.0.0
-revision=3
-wrksrc="${pkgname}-src-${version}"
+version=1.0.2
+revision=1
 build_style=cmake
 configure_args="-DNOSERVER=1 -DDATA_INSTALL_DIR=/usr/share/${pkgname}
  -DPHYSFS_SYSTEM=1 -DMINIMAL_FLAGS=1"
@@ -12,11 +11,11 @@ makedepends="ffmpeg-devel lua51-devel physfs-devel qt5-tools-devel SDL2_image-de
  SDL2_mixer-devel SDL2_net-devel SDL2_ttf-devel"
 depends="libfreeglut"
 short_desc="Funny turn-based artillery game, featuring fighting Hedgehogs!"
-maintainer="Jakub Skrzypnik <jot.skrzyp@gmail.com>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="GPL-2.0-only"
 homepage="https://www.hedgewars.org/"
 distfiles="https://hedgewars.org/download/releases/hedgewars-src-${version}.tar.bz2"
-checksum=211634e61f2e4beecc3c98c6f749601fcd08321fda1ba969b3b3832a004f155b
+checksum=201fe5e45bd8ca5b3d81b18ec06bd6bbc9fa7c2c63bf019005e2f80be5bcf212
 nopie_files="/usr/bin/hwengine"
 nocross="Needs investigation: fails to link hwengine"
 replaces="hedgewars-data>=0"
@@ -36,8 +35,8 @@ case $XBPS_TARGET_MACHINE in
 esac
 
 if [ -n "$_use_c_engine" ]; then
-	hostmakedepends+=" glew-devel libatomic-devel ghc clang"
-	makedepends+=" glew-devel libatomic-devel"
+	hostmakedepends+=" glew-devel ghc clang"
+	makedepends+=" glew-devel"
 	configure_args+=" -DBUILD_ENGINE_C=1"
 	nopie_files+=" /usr/bin/hedgewars"
 fi
@@ -54,5 +53,6 @@ pre_configure() {
 }
 
 post_install() {
+	vman man/hedgewars.6
 	vinstall ${DESTDIR}/usr/share/hedgewars/Data/misc/hedgewars.desktop 644 usr/share/applications
 }

@@ -1,19 +1,20 @@
 # Template file for 'libvisual'
 pkgname=libvisual
-version=0.4.0
-revision=9
+version=0.4.2
+revision=1
 build_style=gnu-configure
-hostmakedepends="pkg-config"
+hostmakedepends="pkg-config SDL-devel"
+makedepends="SDL-devel"
 short_desc="Abstraction library for audio visualisation plugins"
-maintainer="Orphaned <orphan@voidlinux.org>"
+maintainer="Piraty <mail@piraty.dev>"
 license="LGPL-2.1-or-later"
-homepage="http://sourceforge.net/projects/libvisual/"
-distfiles="${SOURCEFORGE_SITE}/$pkgname/$pkgname-$version.tar.gz"
-checksum=0b4dfdb87125e129567752089e3c8b54cefed601eef169d2533d8659da8dc1d7
+homepage="http://libvisual.org"
+distfiles="https://github.com/Libvisual/libvisual/releases/download/libvisual-${version}/libvisual-${version}.tar.bz2"
+checksum="2aa5967c5c9522c8d7ab9bd9246c77a582c1aaf4f2b3f06493dbe3066f00380a"
 
 pre_configure() {
-	sed -e 's,-L$(libdir),,' -i libvisual/Makefile.in
-	sed -e 's,i*86),i*86*),' -i configure
+	vsed -e 's,-L$(libdir),,' -i libvisual/Makefile.in
+	vsed -e 's,i*86),i*86*),' -i configure
 }
 
 libvisual-devel_package() {

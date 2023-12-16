@@ -1,13 +1,13 @@
 # Template file for 'vkBasalt'
 pkgname=vkBasalt
-version=0.3.2.4
+version=0.3.2.10
 revision=1
 build_style=meson
 hostmakedepends="glslang pkg-config"
 makedepends="libX11-devel SPIRV-Headers Vulkan-Headers"
 short_desc="Vulkan post-processing layer"
-maintainer="xolophreny <xolophreny@protonmail.ch>"
+maintainer="Nika Jay <xolophreny@proton.me>"
 license="Zlib"
 homepage="https://github.com/DadSchoorse/vkBasalt"
-distfiles="${homepage}/archive/v${version}.tar.gz"
-checksum=f45d513d9f212e9a1e1ec49448e72c5f2510d62303c38fdb5015b9a3afd42b26
+distfiles="https://github.com/DadSchoorse/vkBasalt/archive/v${version}.tar.gz"
+checksum=22f0d44518361b12cf51f30fc9931423977af32a396e746ebf6d726c05788de6

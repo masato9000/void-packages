@@ -1,11 +1,11 @@
 # Template file for 'python3-pywt'
 pkgname=python3-pywt
-version=1.3.0
+version=1.5.0
 revision=1
-wrksrc="${pkgname#python3-}-${version}"
-build_style=python3-module
-build_helper="numpy"
-hostmakedepends="python3-setuptools python3-Cython"
+build_style=python3-pep517
+build_helper="meson numpy"
+make_check_target="pywt/tests"
+hostmakedepends="python3-meson-python python3-Cython"
 makedepends="python3-devel"
 depends="python3-numpy"
 checkdepends="python3-pytest $depends"
@@ -14,11 +14,7 @@ maintainer="Andrew J. Hesford <ajh@sideband.org>"
 license="MIT"
 homepage="https://github.com/PyWavelets/pywt"
 distfiles="${homepage}/archive/v${version}.tar.gz"
-checksum=6dc7e55a2d7c415262eb212a2fbbb0e3aa19572fecd5cebcef72b810ac11d4ae
-
-do_check() {
-	(cd build/lib* && python3 -m pytest pywt/tests)
-}
+checksum=5aedfa9bd629f104a04fda88b92582bda38ab22282ce5048b5760b5d18e83fc9
 
 post_install() {
 	vlicense LICENSE

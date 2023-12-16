@@ -1,11 +1,11 @@
 # Template file for 'qt5-webengine'
 pkgname=qt5-webengine
-version=5.15.8
+version=5.15.16
 revision=1
 _version="${version}-lts"
-_chromium_commit=8c0a9b4459f5200a24ab9e687a3fb32e975382e5
+_chromium_commit=207c2ac45ca3386d153770c6b0d2ea2ec21ca880
 archs="x86_64* i686* armv[67]* ppc64* aarch64*"
-wrksrc="qtwebengine-${_version}"
+create_wrksrc=yes
 build_style=qmake
 configure_args="--
  -webengine-icu -webengine-ffmpeg -webengine-opus -webengine-webp
@@ -25,15 +25,15 @@ makedepends="qt5-webchannel-devel qt5-location-devel qt5-tools-devel qt5-devel
  jsoncpp-devel harfbuzz-devel lcms2-devel protobuf-devel pulseaudio-devel
  libXrandr-devel MesaLib-devel mit-krb5-devel alsa-lib-devel libxkbcommon-devel
  libxkbfile-devel libXdamage-devel
- $(vopt_if sndio sndio-devel) $(vopt_if pipewire libpipewire0.2-devel)"
+ $(vopt_if sndio sndio-devel) $(vopt_if pipewire pipewire-devel)"
 short_desc="Cross-platform application and UI framework (QT5) - WebEngine component"
 maintainer="John <me@johnnynator.dev>"
 license="GPL-3.0-or-later, LGPL-3.0-or-later"
 homepage="https://qt.io/"
 distfiles="https://github.com/qt/qtwebengine/archive/v${_version}.tar.gz
  https://github.com/qt/qtwebengine-chromium/archive/${_chromium_commit}.tar.gz"
-checksum="2f92476a1b635f441370836ca57855efdbb2cab0983f2d526b80cfb413631480
- 75c79b886cf9c10778c5880754e1cf021e9a5e4fc372e8e6ab252d4ada263062"
+checksum="d1c0f2993476a9f7b7c09f0fb774338c1a5ddc4d602440a6443cc8b9f337e13a
+ 725f5b35f5361ce05f225e703ae02df808a29da408af16e599b8039f4faf794f"
 
 no_generic_pkgconfig_link=yes
 build_options="sndio pipewire"
@@ -60,23 +60,9 @@ if [ "$XBPS_TARGET_ENDIAN" != "le" ]; then
 	broken="webengine only supports little endian"
 fi
 
-if [ "$XBPS_NO_ATOMIC8" ]; then
-	hostmakedepends+=" libatomic-devel"
-fi
-
-# ppc64 still needs libatomic here, as does s390x but we don't have that
-case "$XBPS_MACHINE" in
-	ppc64*) hostmakedepends+=" libatomic-devel"
-esac
-
 if [ "$XBPS_TARGET_NO_ATOMIC8" ]; then
-	makedepends+=" libatomic-devel"
 	LDFLAGS+=" -latomic"
 fi
-
-case "$XBPS_TARGET_MACHINE" in
-	ppc64*) makedepends+=" libatomic-devel" ;;
-esac
 
 case "$XBPS_TARGET_MACHINE" in
 	ppc64*-musl) makedepends+=" libucontext-devel" ;;
@@ -121,8 +107,9 @@ _cleanup_wrksrc_leak() {
 }
 
 post_extract() {
+	mv qtwebengine-${_version}/*  qtwebengine-${_version}/.??* .
 	rm -r ${wrksrc}/src/3rdparty
-	mv -v ${wrksrc}/../qtwebengine-chromium-${_chromium_commit} ${wrksrc}/src/3rdparty
+	mv -v ${wrksrc}/qtwebengine-chromium-${_chromium_commit} ${wrksrc}/src/3rdparty
 	# ¯\_(ツ)_/¯
 	mkdir -p ${wrksrc}/.git ${wrksrc}/src/3rdparty/chromium/.git
 }

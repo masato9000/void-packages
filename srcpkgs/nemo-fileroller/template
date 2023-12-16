@@ -1,16 +1,15 @@
 # Template file for 'nemo-fileroller'
 pkgname=nemo-fileroller
-version=5.0.1
+version=5.8.0
 revision=1
-wrksrc="nemo-extensions-${pkgname}-${version}"
 build_wrksrc=nemo-fileroller
 build_style=meson
 hostmakedepends="pkg-config"
 makedepends="nemo-devel libglib-devel"
 depends="file-roller"
 short_desc="Nemo file roller extension"
-maintainer="Orphaned <orphan@voidlinux.org>"
+maintainer="Mohammed Anas <triallax@tutanota.com>"
 license="GPL-2.0-or-later"
 homepage="https://github.com/linuxmint/nemo-extensions"
-distfiles="https://github.com/linuxmint/nemo-extensions/archive/refs/tags/nemo-fileroller-${version}.tar.gz"
-checksum=736f574d69344ad9a4e903322e3650ad31aa5447ccc011845b24a5f73784f686
+distfiles="https://github.com/linuxmint/nemo-extensions/archive/refs/tags/${version}.tar.gz"
+checksum=66140a8d7365c1333f219d3012bf51c9462df4f8b1187d08716c9c577a77af28

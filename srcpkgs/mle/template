@@ -1,17 +1,20 @@
 # Template file for 'mle'
 pkgname=mle
-version=1.4.3
+version=1.7.2
 revision=1
 build_style=gnu-makefile
-make_install_args="prefix=/usr"
 hostmakedepends="libtool"
-makedepends="termbox-devel lua53-devel pcre-devel uthash"
+makedepends="lua54-devel pcre2-devel uthash"
 short_desc="Flexible terminal-based text editor (C)"
-maintainer="Anjandev Momi <anjan@momi.ca>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="Apache-2.0"
 homepage="https://github.com/adsr/mle"
 distfiles="https://github.com/adsr/mle/archive/v${version}.tar.gz"
-checksum=452b14d63f7d3ccd98263baec2e4840e4093cc42d1f9cedeaf45151b89ac5ff6
+checksum=5275fcfc58d3d4890d074077d94497db488b2648287b3e48e67b00ea517b02ba
+
+do_check() {
+	make test
+}
 
 post_install() {
 	vman mle.1

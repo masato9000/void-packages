@@ -1,6 +1,6 @@
 # Template file for 'file'
 pkgname=file
-version=5.41
+version=5.45
 revision=1
 bootstrap=yes
 build_style=gnu-configure
@@ -11,7 +11,7 @@ maintainer="Enno Boland <gottox@voidlinux.org>"
 license="BSD-2-Clause"
 homepage="https://www.darwinsys.com/file/"
 distfiles="https://astron.com/pub/file/file-${version}.tar.gz"
-checksum=13e532c7b364f7d57e23dfeea3147103150cb90593a57af86c10e4f6e411603f
+checksum=fc97f51029bb0e2c9f4e3bffefdaf678f0e039ee872b9de5c002a6d09c784d82
 
 build_options="libseccomp"
 

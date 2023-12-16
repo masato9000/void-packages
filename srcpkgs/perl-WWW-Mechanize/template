@@ -1,8 +1,7 @@
 # Template file for 'perl-WWW-Mechanize'
 pkgname=perl-WWW-Mechanize
-version=2.08
+version=2.17
 revision=1
-wrksrc="${pkgname/perl-/}-${version}"
 build_style=perl-module
 hostmakedepends="perl-CGI perl-HTML-Form perl-HTML-Tree
  perl-HTTP-Response-Encoding perl-HTTP-Server-Simple perl-Test-Warn"
@@ -16,4 +15,4 @@ maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="Artistic-1.0-Perl, GPL-1.0-or-later"
 homepage="https://metacpan.org/release/WWW-Mechanize"
 distfiles="${CPAN_SITE}/WWW/${pkgname/perl-/}-${version}.tar.gz"
-checksum=bb3f31b82fa531f699bab6fc74c4b338749702024e0ca2204b29edb4e04ee090
+checksum=9c02003e84621dea12c980c4101e79e4f8cae4e382cd3da239faa8bd198f063a

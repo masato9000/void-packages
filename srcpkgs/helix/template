@@ -1,28 +1,26 @@
 # Template file for 'helix'
 pkgname=helix
-version=22.05
+version=23.10
 revision=1
 build_style=cargo
 make_install_args="--path helix-term"
-hostmakedepends="git"
 short_desc="Post-modern modal text editor"
 maintainer="Marcin Puc <tranzystorek.io@protonmail.com>"
 license="MPL-2.0"
 homepage="https://helix-editor.com/"
-changelog="https://github.com/helix-editor/helix/blob/master/CHANGELOG.md"
-distfiles="https://github.com/helix-editor/helix/archive/${version}.tar.gz"
-checksum=96603cf5504bbd7ebeee1867d65356cccaa2877f697da50c0ad3789a3eb287e4
-
-# skip problematic doctests on i686
-case "$XBPS_TARGET_MACHINE" in
-	i686*) make_check_args="-- --skip src/";;
-	*) ;;
-esac
+changelog="https://raw.githubusercontent.com/helix-editor/helix/master/CHANGELOG.md"
+distfiles="https://github.com/helix-editor/helix/releases/download/${version}/helix-${version}-source.tar.xz"
+checksum=4e7bcac200b1a15bc9f196bdfd161e4e448dc670359349ae14c18ccc512153e8
 
 case "$XBPS_TARGET_MACHINE" in
 	ppc64*) ;;
 	ppc*) broken="no AtomicU64 in sync::atomic";;
 esac
+
+# Checks for Git to fetch tree-sitter grammars, even though they're already
+# present in the tarball
+# See https://github.com/helix-editor/helix/pull/7320
+export PATH="$PATH:/usr/libexec/chroot-git"
 
 post_install() {
 	rm runtime/grammars/.gitkeep
@@ -37,7 +35,7 @@ post_install() {
 	vinstall contrib/helix.png 644 usr/share/icons/hicolor/128x128/apps
 
 	vmkdir usr/lib/helix
-	mv ${DESTDIR}/usr/bin/hx ${DESTDIR}/usr/lib/helix/
 	vcopy runtime usr/lib/helix
-	vbin ${FILESDIR}/hx
+	mv ${DESTDIR}/usr/bin/hx ${DESTDIR}/usr/lib/helix/
+	ln -s /usr/lib/helix/hx ${DESTDIR}/usr/bin/
 }

@@ -1,20 +1,25 @@
 # Template file for 'python3-tqdm'
 pkgname=python3-tqdm
-version=4.48.2
-revision=4
-wrksrc="tqdm-${version}"
-build_style=python3-module
-hostmakedepends="python3-setuptools"
-depends="python3-setuptools"
-short_desc="Fast, extensible progress bar for Python and CLI (Python3)"
-maintainer="bra1nwave <bra1nwave@protonmail.com>"
+version=4.66.1
+revision=2
+build_style=python3-pep517
+hostmakedepends="python3-wheel python3-setuptools_scm"
+depends="python3"
+# checkdepends="python3-pytest-xdist python3-pytest-asyncio
+#  python3-pytest-timeout ${depends}"
+short_desc="Fast, extensible progress bar for Python and CLI"
+maintainer="Mohammed Anas <triallax@tutanota.com>"
 license="MPL-2.0, MIT"
 homepage="https://tqdm.github.io/"
-distfiles="https://github.com/tqdm/tqdm/archive/v${version}.tar.gz"
-checksum=91a61673103ae2d5a1b93672ff60455d689b58372c08b1a27e1a7def71dc05a3
+changelog="https://github.com/tqdm/tqdm/releases"
+distfiles="${PYPI_SITE}/t/tqdm/tqdm-${version}.tar.gz"
+checksum=d88e651f9db8d8551a62556d3cff9e3034274ca5d66e93197cf2490e2dcb69c7
 conflicts="python-tqdm>=0"
+# Requires unpackaged dask and keras.
+make_check=no
 
 post_install() {
-	vman tqdm/tqdm.1 tqdm.1
+	vman tqdm/tqdm.1
+	vcompletion tqdm/completion.sh bash tqdm
 	vlicense LICENCE
 }

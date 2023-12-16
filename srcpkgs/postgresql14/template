@@ -1,8 +1,7 @@
 # Template file for 'postgresql14'
 pkgname=postgresql14
-version=14.1
+version=14.9
 revision=1
-wrksrc="postgresql-${version}"
 build_style=gnu-configure
 make_build_target=world
 _major="${version%%.*}"
@@ -22,7 +21,8 @@ license="PostgreSQL"
 homepage="https://www.postgresql.org"
 changelog="https://www.postgresql.org/docs/current/release-${version//./-}.html"
 distfiles="https://ftp.postgresql.org/pub/source/v${version}/postgresql-${version}.tar.bz2"
-checksum=4d3c101ea7ae38982f06bdc73758b53727fb6402ecd9382006fa5ecc7c2ca41f
+checksum=b1fe3ba9b1a7f3a9637dd1656dfdad2889016073fd4d35f13b50143cbbb6a8ef
+make_check=ci-skip # Postgres server can't be run as root
 
 conf_files="
  /${_sysconfdir}/default/postgresql
@@ -109,9 +109,11 @@ postgresql14-doc_package() {
 	}
 }
 
-postgresql-libs_package() {
+postgresql14-libs_package() {
 	short_desc="PostgreSQL shared libraries"
 	conflicts="postgresql9.6-libs>=0 postgresql12-libs>=0 postgresql13-libs>=0"
+	# This package exist to build extensions. Link all to postgresql-libs.
+	noshlibprovides=yes
 	pkg_install() {
 		vmove "${_prefix}/lib/*.so*"
 		for d in $(find ${DESTDIR}/${_prefix}/share/locale \
@@ -123,8 +125,8 @@ postgresql-libs_package() {
 	}
 }
 
-postgresql-libs-devel_package() {
-	depends="postgresql-libs>=${version}_${revision}"
+postgresql14-libs-devel_package() {
+	depends="postgresql-libs>=${version}_${revision} openssl-devel"
 	short_desc="PostgreSQL shared libraries (development files)"
 	conflicts="postgresql9.6-libs-devel>=0 postgresql12-libs-devel>=0 postgresql13-libs-devel>=0"
 	pkg_install() {
@@ -224,5 +226,6 @@ postgresql14-contrib_package() {
 	short_desc="PostgreSQL contributed programs and extensions"
 	pkg_install() {
 		make -C contrib install DESTDIR=${PKGDESTDIR}
+		mv ${PKGDESTDIR}/usr/include ${PKGDESTDIR}/${_prefix}
 	}
 }

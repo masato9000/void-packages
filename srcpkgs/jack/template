@@ -1,27 +1,25 @@
 # Template file for 'jack'
 pkgname=jack
-version=1.9.20
+version=1.9.22
 revision=1
-wrksrc="jack2-${version}"
 build_style=waf3
 configure_args="--alsa --classic --dbus"
 hostmakedepends="pkg-config"
-makedepends="eigen opus-devel libsamplerate-devel readline-devel
- dbus-devel db-devel celt-devel $(vopt_if ffado libffado-devel)
- $(vopt_if zalsa 'zita-alsa-pcmi-devel zita-resampler-devel')"
+makedepends="eigen opus-devel libsamplerate-devel dbus-devel db-devel celt-devel
+ $(vopt_if ffado libffado-devel)"
 depends="python3-dbus"
 short_desc="JACK Audio Connection Kit low-latency sound server (pro audio)"
-maintainer="Daniel Eyßer <daniel.eysser@gmail.com>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="GPL-2.0-or-later, LGPL-2.1-or-later"
 homepage="https://jackaudio.org/"
+changelog="https://raw.githubusercontent.com/jackaudio/jack2/master/ChangeLog.rst"
 distfiles="https://github.com/jackaudio/jack2/archive/v${version}.tar.gz"
-checksum=915ad2900992159bdb729b9fc4ea134b962ce32b2df0b384fee40a2c5808835d
+checksum=1e42b9fc4ad7db7befd414d45ab2f8a159c0b30fcd6eee452be662298766a849
 python_version=3
 
 # Package build options
-build_options="ffado zalsa"
+build_options="ffado"
 desc_option_ffado="Enable support for FireWire audio devices"
-desc_option_zalsa="Enable support for internal zita-a2j/j2a clients"
 
 post_install() {
 	# pam_limits(8) support

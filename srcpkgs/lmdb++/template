@@ -2,11 +2,10 @@
 pkgname=lmdb++
 version=1.0.0
 revision=1
-wrksrc="lmdbxx-${version}"
 build_style=gnu-makefile
 depends="lmdb-devel"
 short_desc="C++11 wrapper for the LMDB database library"
-maintainer="Lorem <notloremipsum@protonmail.com>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="Unlicense"
 homepage="https://github.com/hoytech/lmdbxx/"
 distfiles="https://github.com/hoytech/lmdbxx/archive/${version}.tar.gz"

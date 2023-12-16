@@ -1,19 +1,21 @@
 # Template file for 'vim'
 pkgname=vim
-version=8.2.4969
-revision=1
+version=9.0.1903
+revision=3
+create_wrksrc=required
 hostmakedepends="gettext glib-devel pkg-config"
 makedepends="acl-devel ncurses-devel
  $(vopt_if x11 libXt-devel)
  $(vopt_if gtk3 gtk+3-devel)
  $(vopt_if huge 'lua53-devel perl python3-devel ruby-devel')"
 depends="vim-common>=${version}"
+checkdepends="libtool ncurses-base"
 short_desc="Vim editor (vi clone)"
-maintainer="Neel Chotai <neel@chot.ai>"
+maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="Vim"
 homepage="https://www.vim.org"
 distfiles="https://github.com/vim/vim/archive/v${version}.tar.gz"
-checksum=68034c433787f2a65afb69fd725eeefe24914c48c19ce210810eeacafd111107
+checksum=ba769f8513f2f75d71518f817f945809a5cb1310fd58cd86daca96e658cccf7d
 python_version=3
 
 build_options="x11 gtk3 huge"
@@ -32,10 +34,10 @@ _subdirs="$(vopt_if x11 vim-x11) $(vopt_if gtk3 gvim)
 alternatives="vim:vim:/usr/bin/vim-normal"
 
 pre_configure() {
-	for f in ${_subdirs}; do
-		mkdir -p /tmp/${f}
-		cp -a $wrksrc/* /tmp/${f}
-		mv /tmp/${f} $wrksrc/${f}
+	local f
+	for f in vim-normal ${_subdirs}; do
+		rm -rf ${f}
+		cp -r vim-${version} ${f}
 	done
 }
 
@@ -58,7 +60,7 @@ do_configure() {
 	fi
 
 	# Normal version.
-	cd $wrksrc
+	cd $wrksrc/vim-normal
 	./configure ${configure_args} ${args} ${nohuge_args} --disable-xim --enable-gui=no --with-x=no
 
 	# X11 version.
@@ -78,7 +80,8 @@ do_configure() {
 		cd $wrksrc/vim-huge
 		./configure ${configure_args} ${args} --with-x=yes --enable-gui=no \
 			--with-features=huge --enable-perlinterp --enable-python3interp \
-			--enable-rubyinterp --enable-luainterp --enable-terminal
+			--enable-rubyinterp --enable-luainterp --enable-terminal \
+			--with-python3-stable-abi=3.12
 		if [ "$build_option_gtk3" ]; then
 
 			cd $wrksrc/gvim-huge
@@ -87,23 +90,26 @@ do_configure() {
 				--with-vim-name=gvim-huge --with-features=huge \
 				--enable-perlinterp --enable-python3interp \
 				--enable-rubyinterp --enable-luainterp \
-				--enable-terminal
+				--enable-terminal --with-python3-stable-abi=3.12
 		fi
 	fi
 }
 
 do_build() {
-	cd $wrksrc
-	make ${makejobs}
-
-	for f in ${_subdirs}; do
+	for f in vim-normal ${_subdirs}; do
 		cd $wrksrc/$f
 		make ${makejobs}
 	done
 
 }
 
+do_check() {
+	cd $wrksrc/vim-normal
+	TERM=xterm make test
+}
+
 do_install() {
+	cd $wrksrc/vim-normal
 	make DESTDIR=$DESTDIR install
 	vlicense runtime/doc/uganda.txt LICENSE
 

@@ -1,8 +1,8 @@
 # Template file for 'openbsd-netcat'
 pkgname=openbsd-netcat
-version=1.218
+version=1.226
 revision=1
-wrksrc="netcat-openbsd-${version%p*}"
+create_wrksrc=yes
 hostmakedepends="pkg-config"
 makedepends="libbsd-devel"
 short_desc="TCP/IP swiss army knife (OpenBSD/Debian variant)"
@@ -12,15 +12,19 @@ homepage="http://packages.debian.org/sid/netcat-openbsd"
 distfiles="
  ${DEBIAN_SITE}/main/n/netcat-openbsd/netcat-openbsd_${version%p*}.orig.tar.gz
  ${DEBIAN_SITE}/main/n/netcat-openbsd/netcat-openbsd_${version}-1.debian.tar.xz"
-checksum="a28a5d39abaf481747b1e78b4b50e96d0cdab0ffef289cba156dc11941c64857
- efe4a9107b03e1cd02fa055d8c76fdebadee18ded4f50ec53613835f249bd325"
+checksum="91c34c3b9ebc18b84e42514ea0328274229afd408853f7e22af897652ee6bfe5
+ c0f0afd3eda87e990c332b25f67c4d6599aa24ddbadf0cfc7be170227782b6f8"
 
 alternatives="
  nc:nc:/usr/bin/openbsd-nc
  nc:nc.1:/usr/share/man/man1/openbsd-nc.1"
 
+post_extract() {
+	mv netcat-openbsd-${version}/* .
+	( cd debian/patches; xargs cat <series; ) | patch -p1
+}
+
 do_build() {
-	( cd ../debian/patches; xargs cat <series; ) | patch -p1
 	case "$XBPS_TARGET_MACHINE" in
 		*-musl) # Add missing b64_ntop() and b64_pton() functions
 			cp ${FILESDIR}/base64.c .
@@ -35,5 +39,5 @@ do_build() {
 do_install() {
 	vbin nc openbsd-nc
 	vman nc.1 openbsd-nc.1
-	vlicense ../debian/copyright LICENSE
+	vlicense debian/copyright LICENSE
 }

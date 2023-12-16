@@ -1,9 +1,9 @@
 # Template file for 'tesseract-ocr'
 pkgname=tesseract-ocr
 version=4.1.1
-revision=6
+revision=9
 _tessdataver=4.0.0
-wrksrc="tesseract-${version}"
+create_wrksrc=yes
 build_style=gnu-configure
 configure_args="LIBLEPT_HEADERSDIR=${XBPS_CROSS_BASE}/usr/include $(vopt_enable openmp)"
 make_build_args="all training"
@@ -45,8 +45,9 @@ pkg_lang() {
 }
 
 post_extract() {
-	mv ${XBPS_BUILDDIR}/tessdata-${_tessdataver}/* ${wrksrc}/tessdata
-	rmdir ${XBPS_BUILDDIR}/tessdata-${_tessdataver}
+	mv tesseract-${version}/* .
+	mv tessdata-${_tessdataver}/* ${wrksrc}/tessdata
+	rmdir tessdata-${_tessdataver}
 }
 pre_configure() {
 	NOCONFIGURE=1 ./autogen.sh
@@ -67,6 +68,7 @@ post_install() {
 	for lang in equ osd; do
 		$(pkg_lang ${lang})
 	done
+	vdoc "${FILESDIR}/README.voidlinux"
 }
 tesseract-ocr-tools_package() {
 	depends="${sourcepkg}>=${version}_${revision}"

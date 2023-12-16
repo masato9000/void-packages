@@ -2,13 +2,12 @@
 pkgname=perl-Business-ISMN
 version=1.202
 revision=1
-wrksrc="${pkgname/perl-/}-${version}"
 build_style=perl-module
 hostmakedepends="perl"
 makedepends="perl perl-Tie-Cycle"
 depends="${makedepends}"
 short_desc="Business::ISMN - work with International Standard Music Numbers"
-maintainer="svenper <svenper@tuta.io>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="Artistic-1.0-Perl, GPL-1.0-or-later"
 homepage="https://metacpan.org/release/Business-ISMN/"
 distfiles="${CPAN_SITE}/Business/${pkgname/perl-/}-${version}.tar.gz"

@@ -1,30 +1,29 @@
 # Template file for 'rhash'
 pkgname=rhash
-version=1.4.2
-revision=1
-wrksrc="RHash-${version}"
+version=1.4.4
+revision=2
 build_style=configure
-configure_args="--enable-openssl --disable-openssl-runtime
- --prefix=/usr --sysconfdir=/etc"
+configure_args="--enable-openssl --prefix=/usr --sysconfdir=/etc"
+make_install_target="install install-lib-headers"
 conf_files="/etc/rhashrc"
-make_build_target="all lib-shared"
-make_install_target="install install-lib-shared"
 makedepends="openssl-devel"
 short_desc="Utility for computing hash sums and creating magnet links"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="0BSD"
 homepage="https://github.com/rhash/RHash"
 distfiles="https://github.com/rhash/RHash/archive/v${version}.tar.gz"
-checksum=600d00f5f91ef04194d50903d3c79412099328c42f28ff43a0bdb777b00bec62
+checksum=8e7d1a8ccac0143c8fe9b68ebac67d485df119ea17a613f4038cda52f84ef52a
 
 post_extract() {
-	sed -i 's/__GLIBC__/__linux__/' librhash/byte_order.h
+	vsed -i -e 's/__GLIBC__/__linux__/' librhash/byte_order.h
 }
 
 post_install() {
 	vlicense COPYING
-	make -C librhash install-lib-headers DESTDIR=$DESTDIR PREFIX=/usr
-	ln -s librhash.so.0 $DESTDIR/usr/lib/librhash.so
+	(
+		cd $DESTDIR/usr/lib
+		ln -sf librhash.so.[0-9] librhash.so
+	)
 }
 
 rhash-devel_package() {

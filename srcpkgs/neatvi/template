@@ -1,6 +1,6 @@
 # Template file for 'neatvi'
 pkgname=neatvi
-version=10
+version=13
 revision=1
 build_style=gnu-makefile
 short_desc="Small ex/vi editor"
@@ -8,7 +8,7 @@ maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="ISC"
 homepage="http://litcave.rudi.ir/"
 distfiles="https://github.com/litcave/${pkgname}/archive/${version}.tar.gz"
-checksum=643189221b245045a406dadabe35a0d257e3ba0e5e18f0500fb6d3338c349936
+checksum=90e5f3791c4ea66eb261a08b4a037cef3a48521267139886f19d1309ef63c290
 
 alternatives="
  vi:ex:/usr/bin/neatex

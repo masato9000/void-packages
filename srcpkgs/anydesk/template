@@ -1,11 +1,11 @@
 # Template file for 'anydesk'
 pkgname=anydesk
-version=6.1.1
-revision=2
+version=6.2.1
+revision=1
 archs="x86_64"
-create_wrksrc="yes"
-hostmakedepends="patchelf rpmextract"
-depends="hicolor-icon-theme"
+create_wrksrc=yes
+hostmakedepends="patchelf"
+depends="hicolor-icon-theme gtkglext"
 short_desc="Fast remote desktop application"
 maintainer="mobinmob <mobinmob@disroot.org>"
 license="custom:Proprietary"
@@ -16,8 +16,8 @@ restricted=yes
 
 distfiles="https://download.anydesk.com/linux/anydesk_${version}-1_x86_64.rpm
 	https://download.anydesk.com/linux/anydesk-${version}-amd64.tar.gz"
-checksum="93f8ffb2ec46b7601be7682a4096a23ac19768bc5bcd88afb28a88c90f38867a
- 102e72c75502a4779083320322dd047e2b0c00a25ead7444a00aad1db54325aa"
+checksum="68f8395a0c84f2560ffa425497fbf9846a61bb2dbc4b1010a8ffca7856514ab2
+ 96a7ded2144ecdaff381c34e49eee3275caaaac00847e91abf5e7783706c989c"
 
 
 do_build() {

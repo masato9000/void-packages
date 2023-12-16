@@ -1,11 +1,10 @@
 # Template file for 'bcc'
 pkgname=bcc
-version=0.24.0
+version=0.29.1
 revision=1
-wrksrc="bcc"
 build_style=cmake
 configure_args="-DREVISION=${version} -DENABLE_LLVM_SHARED=1"
-hostmakedepends="flex python3"
+hostmakedepends="flex python3-setuptools"
 makedepends="clang clang-tools-extra elfutils-devel flex lld-devel llvm
  ncurses-devel python3-devel zlib-devel"
 short_desc="BPF-based Linux IO analysis, networking, monitoring, and more"
@@ -13,12 +12,8 @@ maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="Apache-2.0"
 homepage="https://github.com/iovisor/bcc"
 distfiles="https://github.com/iovisor/bcc/releases/download/v${version}/bcc-src-with-submodule.tar.gz>bcc-${version}.tar.gz"
-checksum=4ff35d71f1dc3b6fc5626bbb7644afc9eb0953be23e873c61034c8f50c589268
+checksum=321575fa94f3274040379dd2d4535217f45099f4240b58a4dfc171aa8c78402f
 python_version="3"
-
-if [ "$XBPS_TARGET_NO_ATOMIC8" ]; then
-	makedepends+=" libatomic-devel"
-fi
 
 post_extract() {
 	sed -i '/tests/d' CMakeLists.txt  # break on musl
@@ -55,6 +50,7 @@ bcc-devel_package() {
 	depends="${sourcepkg}>=${version}_${revision}"
 	pkg_install() {
 		vmove usr/include
+		vmove usr/lib/*.a
 		vmove usr/lib/*.so
 		vmove usr/lib/pkgconfig
 		vmove usr/share/bcc/examples

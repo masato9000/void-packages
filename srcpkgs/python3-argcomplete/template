@@ -1,14 +1,20 @@
 # Template file for 'python3-argcomplete'
 pkgname=python3-argcomplete
-version=2.0.0
+version=3.1.2
 revision=1
-wrksrc="argcomplete-${version}"
-build_style=python3-module
-hostmakedepends="python3-setuptools"
+build_style=python3-pep517
+hostmakedepends="python3-setuptools_scm python3-wheel"
 depends="python3"
+checkdepends="python3-pexpect python3-pip zsh"
 short_desc="Bash tab completion for argparse"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="Apache-2.0"
 homepage="https://github.com/kislyuk/argcomplete"
+changelog="https://raw.githubusercontent.com/kislyuk/argcomplete/develop/Changes.rst"
 distfiles="${PYPI_SITE}/a/argcomplete/argcomplete-${version}.tar.gz"
-checksum=6372ad78c89d662035101418ae253668445b391755cfe94ea52f1b9d22425b20
+checksum=d5d1e5efd41435260b8f85673b74ea2e883affcbec9f4230c582689e8e78251b
+
+do_check() {
+	# pytest is not supported
+	python3 -m unittest -b test/test.py
+}

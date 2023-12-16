@@ -1,6 +1,6 @@
 # Template file for 'micro'
 pkgname=micro
-version=2.0.10
+version=2.0.13
 revision=1
 build_style=go
 go_import_path="github.com/zyedidia/micro/v2"
@@ -13,7 +13,11 @@ maintainer="0x5c <dev@0x5c.io>"
 license="MIT"
 homepage="https://micro-editor.github.io"
 distfiles="https://github.com/zyedidia/micro/archive/v${version}.tar.gz"
-checksum=d849751fcd70eba48bf3e15c3cc665f818fe77e5ac7819d0afe2123dc258aedc
+checksum=a96fff974ed6bd9a1dd58a33e54ff23b78783bbb3571b86d5c37d787b1e0e4be
+
+pre_build() {
+	GOARCH= go generate ./runtime
+}
 
 post_install() {
 	vlicense LICENSE

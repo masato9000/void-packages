@@ -1,2 +1,0 @@
-pkgname=php
-ignore="8.[1-9].*"

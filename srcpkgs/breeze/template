@@ -1,11 +1,11 @@
 # Template file for 'breeze'
 pkgname=breeze
-version=5.24.5
+version=5.27.10
 revision=1
 build_style=cmake
 configure_args="-DBUILD_TESTING=OFF"
-hostmakedepends="extra-cmake-modules qt5-qmake qt5-host-tools kcoreaddons
- gettext kpackage"
+hostmakedepends="extra-cmake-modules qt5-qmake qt5-host-tools
+ gettext kcmutils-devel kpackage-devel kconfig-devel kcoreaddons-devel"
 makedepends="frameworkintegration-devel kcmutils-devel kdecoration-devel
  fftw-devel plasma-framework-devel"
 depends="breeze-icons frameworkintegration breeze-snow-cursor-theme"
@@ -14,10 +14,9 @@ maintainer="John <me@johnnynator.dev>"
 license="GPL-2.0-or-later"
 homepage="https://invent.kde.org/plasma/breeze"
 distfiles="${KDE_SITE}/plasma/${version}/${pkgname}-${version}.tar.xz"
-checksum=8525a6b50da5523c3d21c1223e0f2b8ad4a2d147e48e5d128e1c6ee06baaf0a3
+checksum=bebc960752da9d53a9895ffc05d824cba702735428aa61347b703fea074700a2
 
 if [ "$CROSS_BUILD" ]; then
-	hostmakedepends+=" kpackage-devel kconfig-devel kcoreaddons-devel plasma-framework"
 	configure_args+=" -DKF5_HOST_TOOLING=/usr/lib/cmake"
 fi
 

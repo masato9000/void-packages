@@ -1,16 +1,14 @@
 # Template file for 'python3-importlib_metadata'
 pkgname=python3-importlib_metadata
-version=4.8.1
+version=6.7.0
 revision=2
-wrksrc="importlib_metadata-${version}"
-build_style=python3-module
-hostmakedepends="python3-setuptools_scm"
+build_style=python3-pep517
+hostmakedepends="python3-setuptools_scm python3-wheel"
 depends="python3-zipp"
-short_desc="Read metadata from Python packages (Python 3)"
-maintainer="Lorem <notloremipsum@protonmail.com>"
+short_desc="Read metadata from python3 packages"
+maintainer="icp <pangolin@vivaldi.net>"
 license="Apache-2.0"
-homepage="https://github.com/python/importlib_metadata"
+homepage="https://pypi.org/project/importlib-metadata/"
+changelog="https://raw.githubusercontent.com/python/importlib_metadata/main/NEWS.rst"
 distfiles="${PYPI_SITE}/i/importlib_metadata/importlib_metadata-${version}.tar.gz"
-checksum=f284b3e11256ad1e5d03ab86bb2ccd6f5339688ff17a4d797a0fe7df326f23b1
-# Needs unpackaged "pyfakefs"
-make_check=no
+checksum=1aaf550d4f73e5d6783e7acb77aec43d49da8017410afae93822cc9cca98c4d4

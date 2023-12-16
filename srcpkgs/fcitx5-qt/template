@@ -1,12 +1,13 @@
 # Template file for 'fcitx5-qt'
 pkgname=fcitx5-qt
-version=5.0.11
+version=5.1.1
 revision=1
 build_style=cmake
-configure_args="-DENABLE_QT4=OFF -DENABLE_QT5=ON -DENABLE_QT6=ON
- -DQT_HOST_PATH=/usr"
+configure_args="-DENABLE_QT4=OFF -DENABLE_QT5=ON
+ -DCMAKE_INSTALL_QT6PLUGINDIR=/usr/lib/qt6/plugins
+ -DENABLE_QT6=ON -DQT_HOST_PATH=/usr"
 hostmakedepends="cldr-emoji-annotation pkg-config gettext doxygen
- extra-cmake-modules qt5-qmake qt5-host-tools qt6-base-devel"
+ extra-cmake-modules qt5-qmake qt5-host-tools qt6-base"
 makedepends="libfcitx5-devel fmt-devel qt5-devel libxkbcommon-devel
  qt6-base-devel"
 short_desc="Flexible Context-aware Input Tool with eXtension v5 - Qt"
@@ -14,13 +15,12 @@ maintainer="Đoàn Trần Công Danh <congdanhqx@gmail.com>"
 license="LGPL-2.1-or-later, BSD-3-Clause"
 homepage="https://fcitx-im.org/wiki/Fcitx"
 distfiles="https://download.fcitx-im.org/fcitx5/fcitx5-qt/fcitx5-qt-${version}.tar.xz"
-checksum=7196798d4c6f9305c028dab30a31eb64566b9b47b1cb916518d33f3a0f053d62
+checksum=9487ad258de9a48fca514efcbd6ac979a3d22272a76ffb83a659619cd966ebe7
 lib32disabled=yes
 
-if [ "$XBPS_TARGET_NOATOMIC8" ]; then
-	configure_args+=" -DCMAKE_CXX_STANDARD_LIBRARIES=-latomic"
-	makedepends+=" libatomic-devel"
-fi
+post_patch() {
+	sed -i ';' qt6/platforminputcontext/*
+}
 
 post_install() {
 	local _file
@@ -36,10 +36,12 @@ fcitx5-qt5_package() {
 	depends="fcitx5-qt-${version}_${revision}"
 	short_desc+="5"
 	pkg_install() {
+		vmove usr/bin/fcitx5-qt5-*
 		vmove usr/lib/fcitx5/qt5
 		vmove usr/lib/qt5
 		vmove "usr/libexec/*qt5-*"
 		vmove "usr/lib/*Qt5*.so.*"
+		vmove "usr/share/applications/org.fcitx.fcitx5-qt5-*"
 	}
 }
 
@@ -57,6 +59,7 @@ fcitx5-qt6_package() {
 	depends="fcitx5-qt-${version}_${revision}"
 	short_desc+="6"
 	pkg_install() {
+		vmove usr/bin/fcitx5-qt6-*
 		vmove usr/lib/qt6
 		vmove "usr/lib/*Qt6*.so.*"
 	}

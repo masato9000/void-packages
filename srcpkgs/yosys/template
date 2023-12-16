@@ -1,21 +1,20 @@
 # Template file for 'yosys'
 pkgname=yosys
 # Remember to correct _gitrev on updating
-_gitrev=1979e0b
-version=0.9
-revision=3
-wrksrc=${pkgname}-${pkgname}-${version}
+_gitrev=cc31c6e
+version=0.35
+revision=1
 build_style=gnu-makefile
 make_use_env=yes
 hostmakedepends="python3 bison flex pkg-config tcl"
-makedepends="tcl-devel readline-devel libffi-devel"
+makedepends="tcl-devel readline-devel libffi-devel zlib-devel"
 depends="graphviz xdot berkeley-abc"
 short_desc="Verilog RTL Synthesis Suite"
-maintainer="Jasper Chan <jasperchan515@gmail.com>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="ISC, MIT"
-homepage="http://www.clifford.at/yosys/about.html"
+homepage="https://yosyshq.net/yosys/"
 distfiles="https://github.com/cliffordwolf/yosys/archive/yosys-${version}.tar.gz"
-checksum=f2e31371f9cf1b36cb4f57b23fd6eb849adc7d935dcf49f3c905aa5136382c2f
+checksum=a00643cf4cf83701bfa2b358066eb9d360393d30e8f5a8e65f619ab1fd10474a
 
 post_patch() {
 	vsed -i -e 's,-I[$](PREFIX)/include,,' \

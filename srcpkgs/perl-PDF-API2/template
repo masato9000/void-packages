@@ -1,8 +1,7 @@
 # Template file for 'perl-PDF-API2'
 pkgname=perl-PDF-API2
-version=2.043
+version=2.045
 revision=1
-wrksrc="PDF-API2-${version}"
 build_style=perl-module
 hostmakedepends="perl"
 makedepends="perl"
@@ -13,4 +12,4 @@ maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="LGPL-2.1-or-later"
 homepage="https://metacpan.org/release/PDF-API2"
 distfiles="${CPAN_SITE}/PDF/PDF-API2-${version}.tar.gz"
-checksum=6312f605172973fa4d017639c217b61b1a8d6c533237ce58d5aacecfa273f0b2
+checksum=b6bdb4e0d0cd6526103fdd58c171e0560c36b843b7fe3ca4ddc9bb1e4c832406

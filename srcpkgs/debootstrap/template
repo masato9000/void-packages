@@ -1,17 +1,16 @@
 # Template file for 'debootstrap'
 pkgname=debootstrap
-version=1.0.126+nmu1
+version=1.0.133
 revision=1
-build_style=fetch
 depends="binutils gnupg gzip tar wget xz zstd"
 short_desc="Bootstrap a basic Debian system"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="MIT"
 homepage="http://packages.qa.debian.org/d/debootstrap.html"
-distfiles="${DEBIAN_SITE}/main/d/${pkgname}/${pkgname}_${version}_all.deb
- ${DEBIAN_SITE}/main/d/debian-archive-keyring/debian-archive-keyring_2021.1.1_all.deb"
-checksum="396f694346e6b401341ca07e30355faebea0ff490322cdbba804066cf4a0d048
- 56beca470dcd9b6d7e6c3c9e9d702101e01e9467e62810a8c357bd7b9c26251d"
+distfiles="${DEBIAN_SITE}/main/d/debootstrap/debootstrap_${version}_all.deb
+ ${DEBIAN_SITE}/main/d/debian-archive-keyring/debian-archive-keyring_2023.4_all.deb"
+checksum="246ebf635de26fafc9201a7ad2d7ea484927ad6f049d6b32c59c6182af0f3a63
+ 6e93a87b9e50bd81518880ec07a62f95d7d8452f4aa703f5b0a3076439f1022c"
 
 case "$XBPS_TARGET_MACHINE" in
 	armv5*l*) _debarch=armel;;
@@ -22,15 +21,20 @@ case "$XBPS_TARGET_MACHINE" in
 	ppc64le*) _debarch=ppc64el;;
 	ppc64*) _debarch=ppc64;;
 	ppc*) _debarch=powerpc;;
+	riscv64*) _debarch=riscv64;;
 	*) broken="please add your architecture";;
 esac
 
+post_extract() {
+	rm -r usr/share/doc/debian-archive-keyring
+
+	mv usr/sbin usr/bin
+	echo ${_debarch} > usr/share/debootstrap/arch
+}
+
 do_install() {
-	bsdtar xOf ${pkgname}_${version}_all.deb data.tar.gz | bsdtar xvzf - -C ${DESTDIR}
-	bsdtar xOf debian-archive-keyring_2021.1.1_all.deb data.tar.xz | bsdtar xvJf - -C ${DESTDIR} ./usr/share/keyrings/debian-archive-keyring.gpg
-	mv ${DESTDIR}/usr/sbin ${DESTDIR}/usr/bin
+	vcopy usr /
 	sed -i 's|export PATH|export PATH="/usr/sbin:/sbin:/usr/bin:/bin"|' ${DESTDIR}/usr/bin/debootstrap
 	vlicense ${DESTDIR}/usr/share/doc/debootstrap/copyright LICENSE
 	rm ${DESTDIR}/usr/share/doc/debootstrap/copyright
-	echo ${_debarch} >${DESTDIR}/usr/share/debootstrap/arch
 }

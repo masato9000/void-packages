@@ -1,15 +1,16 @@
 # Template file for 'babeld'
 pkgname=babeld
-version=1.10
+version=1.13.1
 revision=1
-wrksrc=babeld-babeld-${version}
 build_style=gnu-makefile
 short_desc="Babel loop-avoiding distance-vector routing daemon"
 maintainer="lemmi <lemmi@nerd2nerd.org>"
 license="MIT"
 homepage="https://www.irif.fr/~jch/software/babel/"
-distfiles="https://github.com/jech/babeld/archive/babeld-${version}.tar.gz"
-checksum=d44a0ca3cf67595e1ed67ca219c975c3c011c6046028be75df254715c4611d31
+changelog="https://raw.githubusercontent.com/jech/babeld/master/CHANGES"
+distfiles="https://www.irif.fr/~jch/software/files/babeld-${version}.tar.gz"
+checksum=15f24d26da0ccfc073abcdef0309f281e4684f2aa71126f826572c4c845e8dd9
+conflicts="frr"
 
 pre_build() {
 	echo ${version}-${revision} > version

@@ -2,13 +2,12 @@
 pkgname=perl-Business-ISSN
 version=1.004
 revision=2
-wrksrc="${pkgname/perl-/}-${version}"
 build_style=perl-module
 hostmakedepends="perl"
 makedepends="${hostmakedepends}"
 depends="${makedepends}"
 short_desc="Perl extension for International Standard Serial Numbers"
-maintainer="svenper <svenper@tuta.io>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="Artistic-1.0-Perl, GPL-1.0-or-later"
 homepage="https://metacpan.org/release/Business-ISSN/"
 distfiles="http://search.cpan.org/CPAN/authors/id/B/BD/BDFOY/${pkgname/perl-/}-${version}.tar.gz"

@@ -1,6 +1,6 @@
 # Template file for 'kicad-symbols'
 pkgname=kicad-symbols
-version=6.0.5
+version=7.0.8
 revision=1
 build_style=cmake
 depends="kicad"
@@ -8,5 +8,5 @@ short_desc="Kicad symbol libraries"
 maintainer="Urs Schulz <voidpkgs@ursschulz.de>"
 license="CC-BY-SA-4.0"
 homepage="http://kicad.org"
-distfiles="https://gitlab.com/kicad/libraries/${pkgname}/-/archive/${version}/${pkgname}-${version}.tar.gz"
-checksum=bc7669a84b9541fba5592016d6ac95bff10e36e7a852913df32737267c75e789
+distfiles="https://gitlab.com/kicad/libraries/kicad-symbols/-/archive/${version}/kicad-symbols-${version}.tar.gz"
+checksum=c1ff50eb578fa34dbd8d7498dc2f65f5a9ac691df0753f624631911604250767

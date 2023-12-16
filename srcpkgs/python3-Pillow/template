@@ -1,8 +1,7 @@
 # Template file for 'python3-Pillow'
 pkgname=python3-Pillow
-version=9.1.1
+version=10.1.0
 revision=1
-wrksrc="Pillow-${version}"
 build_style=python3-module
 hostmakedepends="python3-setuptools"
 makedepends="python3-devel libjpeg-turbo-devel libopenjpeg2-devel
@@ -15,7 +14,7 @@ license="custom:PIL"
 homepage="https://python-pillow.org"
 changelog="https://raw.githubusercontent.com/python-pillow/Pillow/master/CHANGES.rst"
 distfiles="${PYPI_SITE}/P/Pillow/Pillow-${version}.tar.gz"
-checksum=7502539939b53d7565f3d11d87c78e7ec900d3c72945d4ee0e2f250d598309a0
+checksum=e6bf8de6c36ed96c86ea3b6e1d5273c53f46ef518a062464cd7ef5dd2cf92e38
 
 post_install() {
 	vlicense LICENSE

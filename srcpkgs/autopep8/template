@@ -1,17 +1,20 @@
 # Template file for 'autopep8'
 pkgname=autopep8
-version=1.6.0
-revision=1
-build_style=python3-module
-hostmakedepends="python3-setuptools"
-depends="python3-pycodestyle python3-toml"
+version=2.0.4
+revision=2
+build_style=python3-pep517
+# fails in CI due to readonly check
+make_check_args="-k not(io_error)"
+hostmakedepends="python3-setuptools python3-wheel"
+depends="python3-pycodestyle"
 checkdepends="python3-pytest $depends"
 short_desc="Automatically formats Python code to conform to the PEP 8 style guide"
-maintainer="k4leg <d0xi@inbox.ru>"
+maintainer="icp <pangolin@vivaldi.net>"
 license="MIT"
 homepage="https://github.com/hhatto/autopep8"
-distfiles="${PYPI_SITE}/a/${pkgname}/${pkgname}-${version}.tar.gz"
-checksum=44f0932855039d2c15c4510d6df665e4730f2b8582704fa48f9c55bd3e17d979
+changelog="https://github.com/hhatto/autopep8/releases"
+distfiles="${PYPI_SITE}/a/autopep8/autopep8-${version}.tar.gz"
+checksum=2913064abd97b3419d1cc83ea71f042cb821f87e45b9c88cad5ad3c4ea87fe0c
 
 post_install() {
 	vlicense LICENSE

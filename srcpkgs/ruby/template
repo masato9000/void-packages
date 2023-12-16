@@ -1,9 +1,9 @@
 # Template file for 'ruby'
-_ruby_abiver=3.1.0
+_ruby_abiver=3.2.0
 
 pkgname=ruby
-version=3.1.2
-revision=1
+version=3.2.2
+revision=2
 build_style=gnu-configure
 configure_args="--enable-shared --disable-rpath
  PKG_CONFIG=/usr/bin/pkg-config"
@@ -16,7 +16,7 @@ homepage="http://www.ruby-lang.org/en/"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="Ruby, BSD-2-Clause"
 distfiles="https://cache.ruby-lang.org/pub/ruby/${version%.*}/${pkgname}-${version}.tar.xz"
-checksum=ca10d017f8a1b6d247556622c841fc56b90c03b1803f87198da1e4fd3ec3bf2a
+checksum=4b352d0f7ec384e332e3e44cdbfdcd5ff2d594af3c8296b5636c710975149e23
 
 case "$XBPS_TARGET_MACHINE" in
 	*-musl)	# Broken on the builders but successfully built locally
@@ -48,12 +48,6 @@ if [ "$CROSS_BUILD" ]; then
 fi
 
 post_patch() {
-	# https://bugs.ruby-lang.org/issues/18373#note-8
-	find .bundle -name extconf.rb -exec \
-		sed -i \
-			-e '/create_makefile/i \$arch_hdrdir = "$(hdrdir)/../.ext/include/$(arch)"' \
-			-e '/create_makefile/i \$DLDFLAGS << " -L#{$top_srcdir}"' {} \;
-
 	[ "$XBPS_TARGET_LIBC" = "glibc" ] && return 0
 
 	echo "Patching out using binary gems for non-glibc..."

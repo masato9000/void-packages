@@ -1,6 +1,6 @@
 # Template file for 'nickle'
 pkgname=nickle
-version=2.90
+version=2.96
 revision=1
 build_style=gnu-configure
 makedepends="readline-devel"
@@ -8,8 +8,9 @@ short_desc="Powerful desk calculator language"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="MIT"
 homepage="https://nickle.org/"
+changelog="https://keithp.com/cgit/nickle.git/log/"
 distfiles="https://nickle.org/release/${pkgname}-${version}.tar.gz"
-checksum=fbb3811aa0ac4b31e1702ea643dd3a6a617b2516ad6f9cfab76ec2779618e5a4
+checksum=f5edaba2c169ad4a335b0da241e316f1be40b71ca58302812d9f1ecbc74f5e06
 
 pre_build() {
 	make CC="$BUILD_CC" CFLAGS="$BUILD_CFLAGS" \

@@ -1,15 +1,15 @@
 # Template file for 'lcms2'
 pkgname=lcms2
-version=2.13.1
+version=2.15
 revision=1
-build_style=gnu-configure
+build_style=meson
 makedepends="tiff-devel"
 short_desc="Small-footprint color management engine, version 2"
 maintainer="skmpz <dem.procopiou@gmail.com>"
 license="MIT"
 homepage="https://littlecms.com"
 distfiles="${SOURCEFORGE_SITE}/lcms/lcms2-${version}.tar.gz"
-checksum=d473e796e7b27c5af01bd6d1552d42b45b43457e7182ce9903f38bb748203b88
+checksum=b20cbcbd0f503433be2a4e81462106fa61050a35074dc24a4e356792d971ab39
 
 post_install() {
 	vlicense COPYING
@@ -21,7 +21,6 @@ lcms2-devel_package() {
 	pkg_install() {
 		vmove usr/include
 		vmove usr/lib/pkgconfig
-		vmove "usr/lib/*.a"
 		vmove "usr/lib/*.so"
 	}
 }

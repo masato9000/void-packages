@@ -1,7 +1,7 @@
 # Template file for 'snapcast'
 pkgname=snapcast
-version=0.25.0
-revision=1
+version=0.27.0
+revision=3
 build_style=cmake
 configure_args="-DCMAKE_INSTALL_SYSCONFDIR=/etc -DBUILD_WITH_TREMOR=OFF
  -DBUILD_WITH_AVAHI=$(vopt_if avahi ON OFF)
@@ -14,15 +14,12 @@ short_desc="Synchronous multi-room audio player"
 maintainer="amak <amak.git@outlook.com>"
 license="GPL-3.0-or-later"
 homepage="https://github.com/badaix/snapcast"
+changelog="https://raw.githubusercontent.com/badaix/snapcast/master/changelog.md"
 distfiles="https://github.com/badaix/snapcast/archive/v${version}.tar.gz"
-checksum=c4e449cb693e091261727421f4965492be049632537e034fa9c59c92d091a846
+checksum=c662c6eafbaa42a4797a4ed6ba4a7602332abf99f6ba6ea88ff8ae59978a86ba
 
 build_options="avahi pulseaudio"
 build_options_default="avahi pulseaudio"
-
-if [ "$XBPS_TARGET_NO_ATOMIC8" ]; then
-	makedepends+=" libatomic-devel"
-fi
 
 post_install() {
 	vdoc README.md

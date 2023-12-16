@@ -1,6 +1,6 @@
 # Template file for 'ymuse'
 pkgname=ymuse
-version=0.20
+version=0.22
 revision=1
 build_style=go
 go_import_path=github.com/yktoo/ymuse
@@ -11,7 +11,7 @@ maintainer="Andrew J. Hesford <ajh@sideband.org>"
 license="Apache-2.0"
 homepage="https://yktoo.com/en/software/ymuse/"
 distfiles="https://github.com/yktoo/ymuse/archive/v${version}.tar.gz"
-checksum=8253ac094b4fd02118175d74ccc44ece0e1405cbd53162878335cd92307294db
+checksum=82c0850bbe7e2d9ce227284e167e091c497fffc9f5b80f84132305a4f360ec32
 
 pre_build() {
 	go generate
@@ -25,5 +25,5 @@ post_install() {
 	vcopy "resources/i18n/generated/*" usr/share/locale
 
 	vmkdir usr/share/applications
-	vcopy resources/ymuse.desktop usr/share/applications
+	vcopy resources/com.yktoo.ymuse.desktop usr/share/applications
 }

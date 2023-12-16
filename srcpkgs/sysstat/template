@@ -1,6 +1,6 @@
 # Template file for 'sysstat'
 pkgname=sysstat
-version=12.6.0
+version=12.7.2
 revision=1
 build_style=gnu-configure
 configure_args="--enable-copy-only --disable-file-attr
@@ -13,7 +13,7 @@ maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="GPL-2.0-or-later"
 homepage="http://pagesperso-orange.fr/sebastien.godard/"
 distfiles="http://pagesperso-orange.fr/sebastien.godard/${pkgname}-${version}.tar.xz"
-checksum=699fd948836d77f9ad0541fd5dcf75cd2505f9da4ec14df669286ad047c23d97
+checksum=ec4090c9c140d8301d5f8cd84e21456737d094d054141a30f557ccb05bbd3b9f
 
 post_extract() {
 	vsed -i 's/lib64/lib/' configure

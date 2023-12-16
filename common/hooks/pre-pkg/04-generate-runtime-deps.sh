@@ -46,7 +46,8 @@ store_pkgdestdir_rundeps() {
 }
 
 hook() {
-    local depsftmp f lf j mapshlibs sorequires _curdep elfmagic
+    local depsftmp f lf j mapshlibs sorequires _curdep elfmagic broken_shlibs verify_deps
+    local _shlib_dir="${XBPS_STATEDIR}/shlib-provides"
 
     # Disable trap on ERR, xbps-uhelper cmd might return error... but not something
     # to be worried about because if there are broken shlibs this hook returns
@@ -63,9 +64,13 @@ hook() {
     depsftmp=$(mktemp) || exit 1
     find ${PKGDESTDIR} -type f -perm -u+w > $depsftmp 2>/dev/null
 
+    for f in ${shlib_requires}; do
+        verify_deps+=" ${f}"
+    done
+
     exec 3<&0 # save stdin
     exec < $depsftmp
-    while read f; do
+    while read -r f; do
         lf=${f#${PKGDESTDIR}}
 	    if [ "${skiprdeps/${lf}/}" != "${skiprdeps}" ]; then
 		    msg_normal "Skipping dependency scan for ${lf}\n"
@@ -91,79 +96,53 @@ hook() {
     # above, the mapping is done thru the common/shlibs file.
     #
     for f in ${verify_deps}; do
-        unset _f j rdep _rdep rdepcnt soname _pkgname _rdepver found
-        _f=$(echo "$f"|sed -E 's|\+|\\+|g')
-        rdep="$(grep -E "^${_f}[[:blank:]]+.*$" $mapshlibs|cut -d ' ' -f2)"
-        rdepcnt="$(grep -E "^${_f}[[:blank:]]+.*$" $mapshlibs|cut -d ' ' -f2|wc -l)"
-        if [ -z "$rdep" ]; then
-            # Ignore libs by current pkg
-            soname=$(find ${PKGDESTDIR} -name "$f")
-            if [ -z "$soname" ]; then
-                msg_red_nochroot "   SONAME: $f <-> UNKNOWN PKG PLEASE FIX!\n"
-                broken=1
-            else
-                echo "   SONAME: $f <-> $pkgname (ignored)"
-            fi
-            continue
-        elif [ "$rdepcnt" -gt 1 ]; then
-            unset j found
-            # Check if shlib is provided by multiple pkgs.
-            for j in ${rdep}; do
-                _pkgname=$($XBPS_UHELPER_CMD getpkgname "$j")
-                # if there's a SONAME matching pkgname, use it.
-                for x in ${pkgname} ${subpackages}; do
-                    [[ $_pkgname == $x ]] && found=1 && break
-                done
-                [[ $found ]] && _rdep=$j && break
-            done
-            if [ -z "${_rdep}" ]; then
-                # otherwise pick up the first one.
-                for j in ${rdep}; do
-                    [ -z "${_rdep}" ] && _rdep=$j
-                done
-            fi
-        else
-            _rdep=$rdep
-        fi
-        _pkgname=$($XBPS_UHELPER_CMD getpkgname "${_rdep}" 2>/dev/null)
-        _rdepver=$($XBPS_UHELPER_CMD getpkgversion "${_rdep}" 2>/dev/null)
-        if [ -z "${_pkgname}" -o -z "${_rdepver}" ]; then
-            msg_red_nochroot "   SONAME: $f <-> UNKNOWN PKG PLEASE FIX!\n"
-            broken=1
-            continue
-        fi
-        # Check if pkg is a subpkg of sourcepkg; if true, ignore version
-        # in common/shlibs.
-        _sdep="${_pkgname}>=${_rdepver}"
-        for _subpkg in ${subpackages}; do
-            if [ "${_subpkg}" = "${_pkgname}" ]; then
-                _sdep="${_pkgname}-${version}_${revision}"
-                break
-            fi
-        done
+        unset _rdep _pkgname _rdepver
 
-        if [ "${_pkgname}" != "${pkgname}" ]; then
-            echo "   SONAME: $f <-> ${_sdep}"
-            sorequires+="${f} "
-        else
+        if [ "$(find ${PKGDESTDIR} -name "$f")" ]; then
             # Ignore libs by current pkg
-            echo "   SONAME: $f <-> ${_rdep} (ignored)"
+            echo "   SONAME: $f <-> $pkgname (ignored)"
             continue
+        # If this library is provided by a subpkg of sourcepkg, use that subpkg
+        elif _pkgname="$(cd "$_shlib_dir" && grep -F -l -x "$f" *.soname 2>/dev/null)"; then
+            # If that library has SONAME, add it to shlibs-requires, too.
+            _pkgname=${_pkgname%.soname}
+            _sdep="${_pkgname}-${version}_${revision}"
+            sorequires+="${f} "
+        elif _pkgname="$(cd "$_shlib_dir" && grep -F -l -x "$f" *.nosoname 2>/dev/null)"; then
+            _pkgname=${_pkgname%.nosoname}
+            _sdep="${_pkgname}-${version}_${revision}"
+        else
+            _rdep="$(awk -v sl="$f" '$1 == sl { print $2; exit; }' "$mapshlibs")"
+
+            if [ -z "$_rdep" ]; then
+                msg_red_nochroot "   SONAME: $f <-> UNKNOWN PKG PLEASE FIX!\n"
+                broken_shlibs=1
+                continue
+            fi
+            _pkgname=$($XBPS_UHELPER_CMD getpkgname "${_rdep}" 2>/dev/null)
+            _rdepver=$($XBPS_UHELPER_CMD getpkgversion "${_rdep}" 2>/dev/null)
+            if [ -z "${_pkgname}" -o -z "${_rdepver}" ]; then
+                msg_red_nochroot "   SONAME: $f <-> UNKNOWN PKG PLEASE FIX!\n"
+                broken_shlibs=1
+                continue
+            fi
+            _sdep="${_pkgname}>=${_rdepver}"
+
+            # By this point, SONAME can't be found in current pkg
+            sorequires+="${f} "
         fi
+        echo "   SONAME: $f <-> ${_sdep}"
         add_rundep "${_sdep}"
     done
     #
     # If pkg uses any unknown SONAME error out.
     #
-    if [ -n "$broken" -a -z "$allow_unknown_shlibs" ]; then
+    if [ -n "$broken_shlibs" -a -z "$allow_unknown_shlibs" ]; then
         msg_error "$pkgver: cannot guess required shlibs, aborting!\n"
     fi
 
     store_pkgdestdir_rundeps
 
-    for f in ${shlib_requires}; do
-        sorequires+="${f} "
-    done
     if [ -n "${sorequires}" ]; then
         echo "${sorequires}" | xargs -n1 | sort | xargs > ${PKGDESTDIR}/shlib-requires
     fi
