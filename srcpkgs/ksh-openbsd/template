@@ -1,8 +1,8 @@
 # Template file for 'ksh-openbsd'
 pkgname=ksh-openbsd
-version=20201005
+version=20230924
 revision=1
-gitver=8819c6c150626ced58f2d57ccc4b5a7d4ccd170d
+gitver=73f0fecbc5ec0f8f8a436af0cbf1b61d0f6ca661
 register_shell="/bin/pdksh"
 short_desc="The OpenBSD Korn Shell (pdksh)"
 maintainer='Local <root@thevoid.masanet.com>'
@@ -10,12 +10,16 @@ homepage="https://github.com/levaidaniel/ksh-openbsd"
 license="PublicDomain"
 makedepends="libbsd-devel ncurses-devel"
 distfiles="https://github.com/levaidaniel/${pkgname}/archive/${gitver}.tar.gz"
-checksum=f9733756de96da4b671a299c64be39a8f3f74aec6444dd93b9f5f900d0de86ed
+checksum=126faaa7de29782b5aecfab9ac8f612059199ebbfb20323e85f1b7aa3081c7af
 wrksrc="ksh-openbsd-${gitver}"
 
 alternatives="
  sh:sh:/bin/pdksh
- sh:sh.1:/usr/share/man/man1/pdksh.1"
+ sh:sh.1:/usr/share/man/man1/pdksh.1
+ ksh:ksh:/usr/bin/pdksh
+ ksh:ksh.1:/usr/share/man/man1/pdksh.1"
+
+register_shell="/bin/ksh /bin/pdksh"
 
 conf_files="/etc/pdksh.kshrc"
 
