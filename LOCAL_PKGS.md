@@ -7,3 +7,4 @@ package templates for software of personal interest
 - `ksh-openbsd` - Truly free (noGPL3) port of OpenBSD's PDKSH from Lévai Dániel
 - `xfce4-mount-plugin` - currently maintained but missing from Void...
 - `encryptpad` - Edit encrypted text (without writing unencrypted data to disk!)
+- `xdman` - Xtreme Download Manager - java-based download manager with browser monitoring
