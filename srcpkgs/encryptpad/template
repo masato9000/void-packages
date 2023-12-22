@@ -1,6 +1,6 @@
 # Template file for 'encryptpad'
 pkgname=encryptpad
-version=0.5.0.0
+version=0.5.0.3
 revision=1
 #archs="x86_64"
 wrksrc="EncryptPad-${version}"
@@ -19,14 +19,15 @@ maintainer="masato9000 <masato9000@users.noreply.github.com>"
 license="GPL v2"
 homepage="https://evpo.net/encryptpad/"
 distfiles="https://github.com/evpo/${pkgname}/archive/refs/tags/v${version}.tar.gz"
-checksum=389aae5657d06f1cff33d0948d9b325edcf6ad2aad64254e88c911acf160702e
+checksum=1de574619b8d991f1b3c8f7160a14190166f64bf3ec7c024c978e37608ceb20b
 
 do_configure() {
-	./configure.py
+	./configure.py --prefix=${DESTDIR}/usr --bindir=${DESTDIR}/usr/bin
 }
 
 do_install() {
-	make DESTDIR=${DESTDIR} install
+	mkdir -p ${DESTDIR}/usr/bin
+	make install
 	vdoc CHANGES.htm
 	vdoc CHANGES.md
 	vdoc README.htm

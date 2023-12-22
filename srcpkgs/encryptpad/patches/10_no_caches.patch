@@ -1,0 +1,31 @@
+--- ./scripts/install.sh	2023-12-04 21:45:05.000000000 -0800
++++ ./scripts/install.sh	2023-12-21 20:24:13.347911031 -0800
+@@ -30,16 +30,16 @@
+     install --mode=744 ${ownerarg} ${grouparg} -T $f "${prefix}/${f}"
+ done
+ popd >/dev/null
+-if which update-icon-caches >/dev/null; then
+-    echo "running upate-icon-caches ..."
+-    update-icon-caches ${prefix}/share/icons/*
+-fi
+-if which update-mime-database >/dev/null; then
+-    echo "running update-mime-database ..."
+-    update-mime-database ${prefix}/share/mime
+-fi
+-if which update-desktop-database >/dev/null; then
+-    echo "running update-desktop-database .."
+-    update-desktop-database ${prefix}/share/applications
+-fi
++#if which update-icon-caches >/dev/null; then
++#    echo "running upate-icon-caches ..."
++#    update-icon-caches ${prefix}/share/icons/*
++#fi
++#if which update-mime-database >/dev/null; then
++#    echo "running update-mime-database ..."
++#    update-mime-database ${prefix}/share/mime
++#fi
++#if which update-desktop-database >/dev/null; then
++#    echo "running update-desktop-database .."
++#    update-desktop-database ${prefix}/share/applications
++#fi
+ echo "installation finished"
