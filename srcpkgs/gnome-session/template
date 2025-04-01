@@ -1,10 +1,9 @@
 # Template file for 'gnome-session'
 pkgname=gnome-session
-version=44.0
+version=47.0.1
 revision=1
 build_style=meson
-configure_args="-Dsystemd_journal=false -Dsystemd_session=disable
- -Dsystemduserunitdir=/usr/lib/systemd/user"
+configure_args="-Dsystemduserunitdir=/usr/lib/systemd/user"
 hostmakedepends="glib-devel gettext pkg-config xmlto"
 makedepends="elogind-devel gnome-desktop-devel gtk+3-devel json-glib-devel
  libglib-devel libICE-devel libSM-devel xtrans"
@@ -15,5 +14,5 @@ maintainer="Orphaned <orphan@voidlinux.org>"
 license="GPL-2.0-or-later, LGPL-2.1-or-later"
 homepage="https://gitlab.gnome.org/GNOME/gnome-session"
 changelog="https://gitlab.gnome.org/GNOME/gnome-session/-/raw/main/NEWS"
-distfiles="${GNOME_SITE}/gnome-session/${version%.*}/gnome-session-${version}.tar.xz"
-checksum=ccf829a96526135e9e9f917526515d36a5092bdfa316f3737dd8c5a524dbf2c6
+distfiles="${GNOME_SITE}/gnome-session/${version%%.*}/gnome-session-${version}.tar.xz"
+checksum=56ae9c68e49995793eb2096bcdc4533b111669e1e54c8b6e0b1d952f6a5e8a70

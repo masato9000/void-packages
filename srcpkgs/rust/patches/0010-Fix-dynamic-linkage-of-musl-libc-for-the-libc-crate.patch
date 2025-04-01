@@ -3,14 +3,14 @@ From: q66 <daniel@octaforge.org>
 Date: Sun, 3 May 2020 18:02:03 +0200
 Subject: [PATCH 10/15] Fix dynamic linkage of musl libc for the libc crate
 
-diff --git a/vendor/libc/src/unix/mod.rs b/vendor/libc/src/unix/mod.rs
-index b005970b9..c53093a09 100644
---- a/vendor/libc/src/unix/mod.rs
-+++ b/vendor/libc/src/unix/mod.rs
-@@ -351,7 +351,14 @@ cfg_if! {
+diff --git a/vendor/libc-0.2.169/src/unix/mod.rs b/vendor/libc-0.2.169/src/unix/mod.rs
+index a14dafdf0..6aabd6765 100644
+--- a/vendor/libc-0.2.169/src/unix/mod.rs
++++ b/vendor/libc-0.2.169/src/unix/mod.rs
+@@ -444,7 +444,14 @@ cfg_if! {
          #[link(name = "dl", cfg(not(target_feature = "crt-static")))]
          #[link(name = "c", cfg(not(target_feature = "crt-static")))]
-         extern {}
+         extern "C" {}
 -    } else if #[cfg(any(target_env = "musl", target_env = "ohos"))] {
 +    } else if #[cfg(target_env = "musl")] {
 +        #[link(name = "c")]
@@ -20,6 +20,6 @@ index b005970b9..c53093a09 100644
 +                        cfg(target_feature = "crt-static")))]
 +        extern {}
 +    } else if #[cfg(target_env = "ohos")] {
-         #[cfg_attr(feature = "rustc-dep-of-std",
-                    link(name = "c", kind = "static", modifiers = "-bundle",
-                         cfg(target_feature = "crt-static")))]
+         #[cfg_attr(
+             feature = "rustc-dep-of-std",
+             link(

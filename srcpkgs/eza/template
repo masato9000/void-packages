@@ -1,20 +1,24 @@
 # Template file for 'eza'
 pkgname=eza
-version=0.18.4
+version=0.20.24
 revision=1
 build_style=cargo
-hostmakedepends="pandoc pkg-config"
-makedepends="libgit2-devel"
-short_desc="Modern, maintained replacement for ls"
-maintainer="Marcin Puc <tranzystorek.io@protonmail.com>"
-license="MIT"
+hostmakedepends="pkg-config"
+makedepends="libgit2-1.9-devel"
+short_desc="Modern replacement for ls"
+maintainer="tranzystorekk <tranzystorek.io@protonmail.com>"
+license="EUPL-1.2"
 homepage="https://eza.rocks"
 changelog="https://raw.githubusercontent.com/eza-community/eza/main/CHANGELOG.md"
-distfiles="https://github.com/eza-community/eza/archive/refs/tags/v${version}.tar.gz"
-checksum=2200bc1c07511c105961dcb3fe1682cc9067d55280dac990de7623aff86cab1a
+distfiles="https://github.com/eza-community/eza/archive/refs/tags/v${version}.tar.gz
+ https://github.com/eza-community/eza/releases/download/v${version}/man-${version}.tar.gz"
+checksum="e5a1761f05adc74b80d59036819e768060971c6f5107e208024c752a2af02ccc
+ eee8dab57d433bceb08fadc3aad283a7c3dc36cdaf3a69fb12fc83902804042e"
 
-post_patch() {
-	cargo update --package git2@0.18.2 --precise 0.17.2
+skip_extraction="man-${version}.tar.gz"
+
+post_extract() {
+	vsrcextract -C manpages --strip-components=3 man-${version}.tar.gz
 }
 
 post_install() {
@@ -22,12 +26,11 @@ post_install() {
 	vcompletion completions/fish/eza.fish fish
 	vcompletion completions/zsh/_eza zsh
 
-	for manpage in eza.1 eza_colors.5 eza_colors-explanation.5; do
-		pandoc --standalone -f markdown -t man man/${manpage}.md > ${manpage}
+	for manpage in manpages/*; do
 		vman ${manpage}
 	done
 
-	vlicense LICENCE
+	vlicense LICENSE.txt
 
 	ln -s eza ${DESTDIR}/usr/bin/exa
 }

@@ -1,6 +1,6 @@
 # Template file for 'gnome-user-docs'
 pkgname=gnome-user-docs
-version=44.1
+version=47.2
 revision=1
 build_style=gnu-configure
 hostmakedepends="gettext pkg-config itstool"
@@ -12,4 +12,4 @@ license="CC-BY-3.0"
 homepage="https://gitlab.gnome.org/GNOME/gnome-user-docs"
 changelog="https://gitlab.gnome.org/GNOME/gnome-user-docs/-/raw/master/NEWS"
 distfiles="${GNOME_SITE}/gnome-user-docs/${version%.*}/gnome-user-docs-${version}.tar.xz"
-checksum=93f3294d43fd22f9962ccf6bd17ff64eae78a6ca063fe6c1e9bc58d00f34e3a8
+checksum=d9bf08b9a6c284d1e04f6fe9237a6deedad161e0e5ba7810bffecf285e2bcddf

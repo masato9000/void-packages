@@ -2,9 +2,9 @@
 #
 # THIS PKG MUST BE SYNCHRONIZED WITH "srcpkgs/poppler-qt5".
 pkgname=poppler
-version=23.12.0
+version=25.02.0
 revision=1
-_testVersion=400f3ff05b2b1c0ae17797a0bd50e75e35c1f1b1
+_testVersion=91ee031c882634c36f2f0f2f14eb6646dd542fb9
 create_wrksrc=yes
 build_style=cmake
 build_helper="gir"
@@ -24,8 +24,8 @@ homepage="https://poppler.freedesktop.org"
 changelog="https://gitlab.freedesktop.org/poppler/poppler/-/raw/master/NEWS"
 distfiles="https://poppler.freedesktop.org/poppler-${version}.tar.xz
  https://gitlab.freedesktop.org/poppler/test/-/archive/${_testVersion}/test-${_testVersion}.tar.gz"
-checksum="beba398c9d37a9b6d02486496635e08f1df3d437cfe61dab2593f47c4d14cdbb
- 0d850a1d06944671c991be6822b7146ade401b06aad560ff39b254a028074525"
+checksum="21234cb2a9647d73c752ce4031e65a79d11a511a835f2798284c2497b8701dee
+ 4155211ed0e5b05ffd0b57e7e4679215ba02c7f58fcd16e6b82844b2f6a6f590"
 
 build_options="gir boost"
 build_options_default="gir boost"

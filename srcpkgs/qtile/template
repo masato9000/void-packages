@@ -1,20 +1,20 @@
 # Template file for 'qtile'
 pkgname=qtile
-version=0.24.0
+version=0.31.0
 revision=2
 build_style=python3-pep517
-_wlroots=0.16
+_wlroots=0.17
 hostmakedepends="python3-setuptools_scm python3-cairocffi python3-xcffib python3-wheel
- pkg-config python3-pywlroots-${_wlroots} python3-pywayland python3-xkbcommon"
+ pkg-config python3-pywlroots python3-pywayland python3-xkbcommon pixman-devel libdrm-devel"
 makedepends="python3-devel libffi-devel pulseaudio-devel wlroots${_wlroots}-devel"
-depends="python3-cairocffi python3-xcffib pango gdk-pixbuf"
+depends="python3-cairocffi python3-xcffib python3-cffi pango gdk-pixbuf"
 short_desc="Full-featured tiling window manager written and configured in Python"
 maintainer="Kai Stian Olstad <void@olstad.com>"
 license="MIT"
 homepage="http://www.qtile.org/"
 changelog="https://raw.githubusercontent.com/qtile/qtile/master/CHANGELOG"
 distfiles="${PYPI_SITE}/q/qtile/qtile-${version}.tar.gz"
-checksum=c6d04d017c65f08c55f160c632f560efdfe092fee312fa78da1feceda044ee41
+checksum=af32dfc518b20c731f2c3db38df44b37b62e5000e3caf7d4fe3003f2310f4a2e
 
 post_install() {
 	vinstall resources/qtile.desktop 644 usr/share/xsessions
@@ -24,7 +24,7 @@ post_install() {
 
 qtile-wayland_package() {
 	depends="${sourcepkg}>=${version}_${revision}
-	 python3-pywlroots-${_wlroots} python3-pywayland python3-xkbcommon"
+	 python3-pywlroots python3-pywayland python3-xkbcommon"
 	pkg_install() {
 		vmove ${py3_sitelib}/libqtile/backend/wayland
 		vmove usr/share/wayland-sessions

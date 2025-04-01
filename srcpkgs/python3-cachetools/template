@@ -1,6 +1,6 @@
 # Template file for 'python3-cachetools'
 pkgname=python3-cachetools
-version=5.3.2
+version=5.5.1
 revision=1
 build_style=python3-pep517
 hostmakedepends="python3-setuptools python3-wheel"
@@ -12,7 +12,7 @@ license="MIT"
 homepage="https://github.com/tkem/cachetools/"
 changelog="https://raw.githubusercontent.com/tkem/cachetools/master/CHANGELOG.rst"
 distfiles="${PYPI_SITE}/c/cachetools/cachetools-${version}.tar.gz"
-checksum=086ee420196f7b2ab9ca2db2520aca326318b68fe5ba8bc4d49cca91add450f2
+checksum=70f238fbba50383ef62e55c6aff6d9673175fe59f7c6782c7a0b9e38f4a9df95
 
 post_install() {
 	vlicense LICENSE

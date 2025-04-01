@@ -3,15 +3,15 @@ pkgname=oneVPL
 version=2023.3.1
 revision=2
 build_style=cmake
-hostmakedepends="libva-devel libX11-devel"
 hostmakedepends="pkg-config"
+makedepends="libva-devel libX11-devel"
 short_desc="Intel oneAPI Video Processing Library"
 maintainer="Michael Aldridge <maldridge@voidlinux.org>"
 license="MIT"
 homepage="https://github.com/oneapi-src/oneVPL"
 changelog="https://github.com/oneapi-src/oneVPL/blob/master/CHANGELOG.md"
 distfiles="https://github.com/oneapi-src/oneVPL/archive/refs/tags/v$version.tar.gz"
-checksum=4411543519486a2450f6f5af06a077596e7888a551768594e9dfa2a46b23b6f5
+checksum=914530a80bdb155d3a4d50916ff34451da48584269e37075a48bd74a74e3d847
 
 post_install() {
 	vlicense LICENSE

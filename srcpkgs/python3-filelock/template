@@ -1,15 +1,24 @@
 # Template file for 'python3-filelock'
 pkgname=python3-filelock
-version=3.13.1
+version=3.17.0
 revision=1
 build_style=python3-pep517
 hostmakedepends="hatchling hatch-vcs"
 depends="python3"
-checkdepends="python3-pytest python3-pytest-mock python3-pytest-timeout"
+checkdepends="python3-pytest python3-pytest-mock python3-pytest-timeout
+ python3-pytest-asyncio"
 short_desc="Platform independent file lock"
 maintainer="Piotr Wójcik <chocimier@tlen.pl>"
 license="Unlicense"
 homepage="https://py-filelock.readthedocs.io/en/latest/"
 changelog="https://raw.githubusercontent.com/tox-dev/py-filelock/main/docs/changelog.rst"
 distfiles="${PYPI_SITE}/f/filelock/filelock-${version}.tar.gz"
-checksum=521f5f56c50f8426f5e03ad3b281b490a87ef15bc6c526f168290f0c7148d44e
+checksum=ee4e77401ef576ebb38cd7f13b9b28893194acc20a8e68e18730ba9c0e54660e
+
+if [ "$XBPS_CHECK_PKGS" = full ]; then
+	# this would cause a build-time circular dependency
+	checkdepends+=" python3-virtualenv"
+else
+	# These tests requires virtualenv
+	make_check_args="--ignore tests/test_virtualenv.py"
+fi
