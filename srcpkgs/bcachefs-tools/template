@@ -1,12 +1,12 @@
 # Template file for 'bcachefs-tools'
 pkgname=bcachefs-tools
 reverts="24_1"
-version=1.25.0
+version=1.34.0
 revision=1
 build_style=gnu-makefile
 make_install_args="ROOT_SBINDIR=/usr/bin"
 make_use_env=yes
-hostmakedepends="pkg-config cargo clang17-devel llvm liburcu-devel"
+hostmakedepends="cargo clang19-devel jq liburcu-devel llvm19 pkg-config"
 makedepends="rust attr-devel keyutils-devel libaio-devel libblkid-devel
  liblz4-devel libscrypt-devel libsodium-devel eudev-libudev-devel liburcu-devel
  libuuid-devel libzstd-devel zlib-devel"
@@ -15,19 +15,28 @@ maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="GPL-2.0-only"
 homepage="https://bcachefs.org/"
 distfiles="https://github.com/koverstreet/bcachefs-tools/archive/refs/tags/v${version}.tar.gz"
-checksum=01b9aff1e34a5b8b013e4cee7fac7574f3839b9b4044fe24127a73e77cc7d328
+checksum=d38f6a32832e026e7a6678d1781db71898fd28eb7620c27e4ca6d8ca71b5468c
 
 export VERSION=v${version}
 export RUST_TARGET
 
-if [ "$XBPS_TARGET_MACHINE" = "i686" ]; then
-	broken="bch_bindgen: E0588"
-fi
+case "$XBPS_TARGET_MACHINE" in
+	armv7*) broken="https://build.voidlinux.org/#/builders/6/builds/4217";;
+esac
 
 if [ "$XBPS_TARGET_NO_ATOMIC8" ]; then
-	broken="does not link libatomic"
+	XBPS_CROSS_RUSTFLAGS+=" -latomic"
 fi
 
 pre_build() {
 	RUSTFLAGS+=" -C linker=$CC"
+}
+
+bcachefs-dkms_package() {
+	short_desc+=" - DKMS module"
+	depends="${sourcepkg}>=${version}_${revision} dkms"
+	dkms_modules="bcachefs ${version}"
+	pkg_install() {
+		vmove usr/src
+	}
 }
