@@ -1,5 +1,5 @@
---- ./Makefile	2023-12-21 00:00:00.000000000 -0800
-+++ ./Makefile	2023-12-21 00:09:00.000000000 -0800
+--- ./Makefile	2025-10-10 09:30:10.000000000 -0700
++++ ./Makefile	2026-01-03 13:30:36.747340088 -0800
 @@ -4,7 +4,7 @@
  PREFIX =	/usr
  endif
@@ -9,11 +9,15 @@
  TMP ?= /tmp
  
  PROG =	ksh
-@@ -23,6 +23,7 @@
+@@ -22,8 +22,9 @@
+ CDIAGFLAGS+=	-Wshadow
  CDIAGFLAGS+=	-Wdeclaration-after-statement
  
- CFLAGS +=	$(CDIAGFLAGS) `getconf LFS_CFLAGS` -DEMACS -DVI
+-CFLAGS +=	$(CDIAGFLAGS) `getconf LFS_CFLAGS` -DEMACS -DVI `pkg-config --cflags ncurses`
+-LDADD +=	-lbsd `pkg-config --libs ncurses`
++CFLAGS +=	$(CDIAGFLAGS) `getconf LFS_CFLAGS` -DEMACS -DVI `pkg-config --cflags ncursesw`
 +CFLAGS +=	-fPIE -pie
- LDADD +=	-lbsd -lcurses
++LDADD +=	-lbsd `pkg-config --libs ncursesw`
  
  $(PROG): $(OBJS)
+ 	$(CC) $(OBJS) $(LDADD) $(CFLAGS) \

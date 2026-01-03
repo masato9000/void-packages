@@ -1,6 +1,6 @@
 # Template file for 'encryptpad'
 pkgname=encryptpad
-version=0.5.0.3
+version=0.5.0.4
 revision=1
 #archs="x86_64"
 wrksrc="EncryptPad-${version}"
@@ -11,15 +11,15 @@ build_style=gnu-configure
 #make_install_args=""
 #conf_files=""
 #make_dirs="/var/log/dir 0755 root root"
-hostmakedepends="python which"
-makedepends="qt5-devel zlib-devel botan-devel bzip2-devel pkg-config"
+hostmakedepends="python3 which"
+makedepends="qt5-devel qt5-svg-devel libzip-devel botan-devel bzip2-devel pkg-config"
 depends=""
 short_desc="View and edit symmetrically encrypted text"
 maintainer="masato9000 <masato9000@users.noreply.github.com>"
 license="GPL v2"
 homepage="https://evpo.net/encryptpad/"
 distfiles="https://github.com/evpo/${pkgname}/archive/refs/tags/v${version}.tar.gz"
-checksum=1de574619b8d991f1b3c8f7160a14190166f64bf3ec7c024c978e37608ceb20b
+checksum=d40c0c351d6a4e64e7180da6d43d58390967a282a158dda8669b68663ce6bde3
 
 do_configure() {
 	./configure.py --prefix=${DESTDIR}/usr --bindir=${DESTDIR}/usr/bin
